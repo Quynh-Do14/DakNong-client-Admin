@@ -1,0 +1,16 @@
+.header-main-layout{
+    padding: 10px 30px;
+}
+.header-main-layout .title {
+    text-align: left;
+    color: #979797;
+}
+
+.header-main-layout .breadcumb {
+
+}
+
+.header-main-layout .breadcumb-title {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.70);
+}
