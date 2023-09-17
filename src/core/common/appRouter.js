@@ -42,5 +42,6 @@ export class Endpoint {
     static Module = class {
         static Tour = "/tour";
         static User = "/user";
+        static Category = "/danhmuc";
     }
 };

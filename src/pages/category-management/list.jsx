@@ -1,20 +1,21 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/tour/list.css"
-import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
-import { DebounceInput, convertDateOnly } from '../../infrastucture/utils/helper';
+import "../../assets/css/components/category/list.css"
+import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { ROUTE_PATH } from '../../core/common/appRouter';
-import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
+import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
 import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
+import { StatusUser } from '../../infrastucture/common/components/controls/status';
+import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 
 let timeout
-export const ListTourManagement = () => {
+export const ListCategoryManagement = () => {
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -23,22 +24,24 @@ export const ListTourManagement = () => {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
     const [idSelected, setIdSelected] = useState(null);
     const [pagination, setPagination] = useState({});
+
     const navigate = useNavigate();
 
-    const onGetListTourAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllTour(
+    const onGetListCategoryAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
+        const response = await api.getAllCategory(
             `${Constants.Params.searchName}=${keyWord}&
             ${Constants.Params.limit}=${limit}&
-            ${Constants.Params.page}= ${page}`,
+            ${Constants.Params.page}= ${page}
+             `,
             setLoading
         )
-        if (response.data.tours?.length > 0) {
-            setData(response.data.tours)
+        if (response.data.danhMucs?.length > 0) {
+            setData(response.data.danhMucs);
         }
         setPagination(response.data.pagination);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
-        await onGetListTourAsync({ keyWord: keyWord, limit: limit, page: page })
+        await onGetListCategoryAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
     useEffect(() => {
@@ -77,7 +80,7 @@ export const ListTourManagement = () => {
         setPageSize(value);
         setSearchText("");
         setPage(1);
-        onSearch(searchText, value, page).then((_) => { });
+        onSearch(searchText, pageSize, value).then((_) => { });
     };
 
     const onOpenModalDelete = (id) => {
@@ -87,10 +90,9 @@ export const ListTourManagement = () => {
 
     const onCloseModalDelete = () => {
         setIsDeleteModal(false);
-    }
-
-    const onDeleteTour = async () => {
-        await api.deleteTour({
+    };
+    const onDeleteCategory = async () => {
+        await api.deleteCategory({
             id: idSelected
         },
             onSearch,
@@ -99,17 +101,16 @@ export const ListTourManagement = () => {
         setIsDeleteModal(false);
     };
 
-    const onNavigate = (id) => {
-        navigate(`${(ROUTE_PATH.VIEW_TOUR).replace(`${Constants.UseParams.Id}`, "")}${id}`);
+    const onNavigate = (idDanhMucDiaDiem) => {
+        navigate(`${(ROUTE_PATH.VIEW_CATEGORY).replace(`${Constants.UseParams.Id}`, "")}${idDanhMucDiaDiem}`);
     }
-
     const listAction = (record) => {
         return (
             <Menu>
-                <Menu.Item className='title-action' onClick={() => onNavigate(record.idTour)}>
+                <Menu.Item className='title-action' onClick={() => onNavigate(record.idDanhMucDiaDiem)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Sửa</div>
                 </Menu.Item>
-                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idTour)}>
+                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idDanhMucDiaDiem)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Xóa</div>
                 </Menu.Item>
             </Menu>
@@ -117,11 +118,11 @@ export const ListTourManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý Tour">
-                <div className='tour-pg'>
+            <MainLayout breadcrumb="Trang chủ" title="Quản lý danh mục">
+                <div className='user-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách Tour</Col>
-                        \
+                        <Col className='title'>Danh sách danh mục</Col>
+
                     </Row>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
@@ -136,7 +137,7 @@ export const ListTourManagement = () => {
 
                         </Col>
                         <Col>
-                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_TOUR)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_CATEGORY)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
                     <Table
@@ -144,54 +145,25 @@ export const ListTourManagement = () => {
                         pagination={false}
                     >
                         <Column
-                            title={"Tên Tour"}
-                            key={"tenTour"}
-                            dataIndex={"tenTour"}
-                        />
-                        <Column
-                            title={"Chi phí"}
-                            key={"chiPhi"}
-                            dataIndex={"chiPhi"}
-                        />
-                        <Column
-                            title={"Ngày bắt đầu"}
-                            key={"ngayBatDau"}
-                            dataIndex={"ngayBatDau"}
-                            render={(val) => (
-                                <div>{convertDateOnly(val)} </div>
+                            title={"STT"}
+                            key={"stt"}
+                            dataIndex={"stt"}
+                            render={(value, record, index) => (
+                                <div>{index + 1} </div>
                             )}
                         />
                         <Column
-                            title={"Ngày kết thúc"}
-                            key={"ngayKetThuc"}
-                            dataIndex={"ngayKetThuc"}
-                            render={(val) => (
-                                <div>{convertDateOnly(val)} </div>
-                            )}
+                            title={"Tên danh mục"}
+                            key={"tenDanhMuc"}
+                            dataIndex={"tenDanhMuc"}
                         />
-                        <Column
-                            title={"Số địa điểm"}
-                            key={"soDiaDiem"}
-                            dataIndex={"soDiaDiem"}
-                        />
-
                         <Column
                             title={"Trạng thái"}
                             key={"status"}
                             dataIndex={"status"}
                         />
                         <Column
-                            title={"Số ngày"}
-                            key={"soNgay"}
-                            dataIndex={"soNgay"}
-                        />
-                        <Column
-                            title={"Lượt xem"}
-                            key={"luotXem"}
-                            dataIndex={"luotXem"}
-                        />
-                        <Column
-                            title={"Action"}
+                            title={"Thao tác"}
                             // width={"60px"}
                             fixed="right"
                             align='center'
@@ -208,9 +180,10 @@ export const ListTourManagement = () => {
                                         <MenuOutlined className="pointer" />
                                     </Dropdown>
                                 </Space>
+                                // </CommonPermission>
                             )}
                         />
-                    </Table>;
+                    </Table>
                     <div className='py-4'>
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
@@ -226,16 +199,15 @@ export const ListTourManagement = () => {
                 </div>
             </MainLayout>
             <DialogConfirmCommon
-                message={"Bạn có muốn xóa người dùng này ra khỏi hệ thống"}
+                message={"Bạn có muốn xóa danh mục này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
-                titleOk={"Xóa người dùng"}
+                titleOk={"Xóa danh mục"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteTour}
+                handleOk={onDeleteCategory}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
-        </div>
-
+        </div >
     )
 }

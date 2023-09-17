@@ -13,7 +13,6 @@ import Constants from '../../core/common/constant';
 export const AddUserManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
-    const [detailUser, setDetailUser] = useState({});
     const [submittedTime, setSubmittedTime] = useState();
 
     const [_data, _setData] = useState({});
@@ -23,6 +22,21 @@ export const AddUserManagement = () => {
         Object.assign(dataUser, { ...data });
         _setData({ ...dataUser });
     };
+
+    const isValidData = () => {
+        let allRequestOK = true;
+
+        setValidate({ ...validate });
+
+        Object.values(validate).forEach((it) => {
+            if (it.isError === true) {
+                allRequestOK = false;
+            }
+        });
+
+        return allRequestOK;
+    };
+
     const navigate = useNavigate();
 
     const onBack = () => {
@@ -30,20 +44,23 @@ export const AddUserManagement = () => {
     };
 
     const onCreateUser = async () => {
-        await api.createUser({
-            userName: dataUser.userName,
-            password: "123456aA",
-            status: 1,
-            role: dataUser.role,
-            email: dataUser.email,
-            firstName: dataUser.firstName,
-            lastName: dataUser.lastName,
-            sdt: dataUser.sdt,
-            address: dataUser.address
-        },
-            onBack,
-            setLoading
-        )
+        await setSubmittedTime(Date.now());
+        if (isValidData()) {
+            await api.createUser({
+                userName: dataUser.userName,
+                password: "123456aA",
+                status: 1,
+                role: dataUser.role,
+                email: dataUser.email,
+                firstName: dataUser.firstName,
+                lastName: dataUser.lastName,
+                sdt: dataUser.sdt,
+                address: dataUser.address
+            },
+                onBack,
+                setLoading
+            )
+        }
     };
     return (
         <div>

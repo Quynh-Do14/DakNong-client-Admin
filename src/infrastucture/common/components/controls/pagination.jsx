@@ -7,6 +7,7 @@ export const PaginationCommon = (props) => {
     const {
         title,
         currentPage,
+        isLastPage,
         onSelect,
         onFirstPage,
         onPreviousPage,
@@ -16,7 +17,7 @@ export const PaginationCommon = (props) => {
     return (
         <div className='pagination'>
             <Row align={"middle"} justify={"end"}>
-                <Col xs={12} sm={5} lg={5} xl={4} className='title'>{title}</Col>
+                <Col xs={12} sm={5} lg={5} xl={4} className='title-page'>{title}</Col>
                 <Col xs={12} sm={2} lg={2} xl={2}>
                     <Select className='custom-select w-100'
                         suffixIcon={<CaretDownOutlined />}
@@ -61,12 +62,20 @@ export const PaginationCommon = (props) => {
                             {currentPage}
                         </Col>
                         <Col xs={3} sm={3} lg={4} xl={4} >
-                            <Button className='btn-on-page' onClick={onNextPage}>
+                            <Button
+                                className='btn-on-page'
+                                onClick={onNextPage}
+                                disabled={isLastPage}
+                            >
                                 <RightOutlined />
                             </Button>
                         </Col>
                         <Col xs={3} sm={3} lg={4} xl={4} >
-                            <Button className='btn-on-page' onClick={onLastPage}>
+                            <Button
+                                className='btn-on-page'
+                                onClick={onLastPage}
+                                disabled={isLastPage}
+                            >
                                 <VerticalLeftOutlined />
                             </Button>
                         </Col>

@@ -22,7 +22,8 @@ export const ListUserManagement = () => {
     const [pageSize, setPageSize] = useState(Constants.PaginationConfigs.Size);
     const [page, setPage] = useState(1);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
-    const [idSelected, setIdSelected] = useState(null)
+    const [idSelected, setIdSelected] = useState(null);
+    const [pagination, setPagination] = useState({});
     const navigate = useNavigate();
 
     const onGetListUserAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
@@ -34,10 +35,11 @@ export const ListUserManagement = () => {
             setLoading
         )
         if (response.data.users?.length > 0) {
-            setData(response.data.users)
+            setData(response.data.users);
         }
+        setPagination(response.data.pagination);
     }
-    const onSearch = async (keyWord = "", limit = Constants.PaginationConfigs.Size, page = 1) => {
+    const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
         await onGetListUserAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
@@ -67,14 +69,17 @@ export const ListUserManagement = () => {
     };
 
     const onLastPage = () => {
-
+        let lastPage = pagination.total / pagination.limit;
+        onSearch(searchText, pageSize, lastPage).then((_) => { });
     }
+
+    let isLastPage = pagination.limit * pagination.page <= pagination.total ? false : true
 
     const onPageSizeChanged = (value) => {
         setPageSize(value);
         setSearchText("");
         setPage(1);
-        onSearch(searchText, pageSize, value).then((_) => { });
+        onSearch(searchText, value, page).then((_) => { });
     };
 
     const onOpenModalDelete = (id) => {
@@ -116,11 +121,8 @@ export const ListUserManagement = () => {
                 <div className='user-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
                         <Col className='title'>Danh sách người dùng</Col>
-                        <Col>
-                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
-                        </Col>
                     </Row>
-                    <Row className='mb-4' justify={"space-between"}>
+                    <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
                             <Row align={"middle"}>
                                 <Col>
@@ -131,6 +133,9 @@ export const ListUserManagement = () => {
                                 </Col>
                             </Row>
 
+                        </Col>
+                        <Col>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
                     <Table
@@ -190,7 +195,6 @@ export const ListUserManagement = () => {
                                         <MenuOutlined className="pointer" />
                                     </Dropdown>
                                 </Space>
-                                // </CommonPermission>
                             )}
                         />
                     </Table>
@@ -198,6 +202,7 @@ export const ListUserManagement = () => {
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
                             currentPage={page}
+                            isLastPage={isLastPage}
                             onSelect={onPageSizeChanged}
                             onFirstPage={onFirstPage}
                             onPreviousPage={onPreviousPage}

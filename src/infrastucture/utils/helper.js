@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const DebounceInput = (func, delay) => {
     let timer;
     return function (...args) {
@@ -24,7 +26,7 @@ export const validateFields = (isImplicitChange = false, key, isCheck, setError,
             message: message,
         };
     }
-     else {
+    else {
         setError({
             ...error,
             [key]: {
@@ -33,4 +35,19 @@ export const validateFields = (isImplicitChange = false, key, isCheck, setError,
             }
         });
     }
+};
+
+export const convertDate = (date) => {
+    if (date) {
+        let dateFormat = new Date(date);
+        return moment(dateFormat).format("DD/MM/YYYY hh:mm:ss");
+    } return null
+
+};
+export const convertDateOnly = (date) => {
+    if (date) {
+        let dateFormat = new Date(date);
+        return moment(dateFormat).format("DD/MM/YYYY");
+    } return null
+
 };
