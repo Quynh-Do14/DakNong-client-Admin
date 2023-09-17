@@ -1,16 +1,33 @@
-.header-main-layout{
+.header-main-layout {
     padding: 10px 30px;
+    border-top: 1px hsl(0, 0%, 91%) solid;
 }
+
 .header-main-layout .title {
     text-align: left;
-    color: #979797;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 88.889% */
+    letter-spacing: 0.1px;
+    color: #7B7676
 }
 
 .header-main-layout .breadcumb {
-
+    color: #7B7676;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.1px;
 }
 
 .header-main-layout .breadcumb-title {
-    font-weight: 600;
     color: rgba(0, 0, 0, 0.70);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.1px;
 }

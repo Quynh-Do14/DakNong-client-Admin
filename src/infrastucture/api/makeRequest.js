@@ -3,9 +3,10 @@ import { FailMessage, SuccessMessage } from "../common/components/toast/notifica
 
 // import store from "../store";
 const request = {
-  get: async (url) => {
+  get: async (url, setLoading) => {
     let token = sessionStorage.getItem('token');
     console.log(url);
+    setLoading(true);
     let result = await fetch(`${url}`, {
       method: "GET",
       headers: {
@@ -14,9 +15,10 @@ const request = {
     }).catch((e) => {
     });
     if (result.ok) {
-
+      setLoading(false);
       return result.json();
     } else {
+      setLoading(false);
       return {
         status: false,
         data: {},
@@ -70,7 +72,7 @@ const request = {
       };
     }
   },
-  post: async (url, data,) => {
+  post: async (url, data, callBack, setLoading) => {
     // console.log(url, data);
     let token = sessionStorage.getItem('token');
     let result = await fetch(url, {
@@ -84,11 +86,15 @@ const request = {
     }).catch((e) => {
       console.log(e);
     });
+    setLoading(true);
     if (result.ok) {
       SuccessMessage("Tạo mới dữ liệu thành công", "Dữ liệu đã được tạo mới thành công")
+      setLoading(false);
+      callBack()
       return result.json();
     } else {
       FailMessage("Tạo mới dữ liệu thất bại", "Dữ liệu đã được tạo mới thất bại");
+      setLoading(false);
       return {
         status: false,
         data: {},
@@ -97,7 +103,7 @@ const request = {
     }
   },
 
-  put: async (url, data) => {
+  put: async (url, data, callBack, setLoading) => {
     // console.log(url, data);
     let token = sessionStorage.getItem('token');
     let result = await fetch(url, {
@@ -111,11 +117,15 @@ const request = {
     }).catch((e) => {
       console.log(e);
     });
+    setLoading(true)
     if (result.ok) {
       SuccessMessage("Cập nhật dữ liệu thành công", "Dữ liệu đã được cập nhật thành công")
+      callBack();
+      setLoading(false);
       return result.json();
     } else {
       FailMessage("Cập nhật dữ liệu thất bại", "Dữ liệu đã được cập nhật thất bại");
+      setLoading(false);
       return {
         status: false,
         data: {},
@@ -124,7 +134,7 @@ const request = {
     }
   },
 
-  delete: async (url, data) => {
+  delete: async (url, data, callBack, setLoading) => {
     // console.log(url, data);
     let token = sessionStorage.getItem('token');
     let result = await fetch(url, {
@@ -138,11 +148,15 @@ const request = {
     }).catch((e) => {
       console.log(e);
     });
+    setLoading(true);
     if (result.ok) {
       SuccessMessage("Xóa dữ liệu thành công", "Dữ liệu đã được xóa thành công")
+      setLoading(false);
+      callBack()
       return result.json();
     } else {
       FailMessage("Xóa dữ liệu thất bại", "Dữ liệu đã được xóa thất bại");
+      setLoading(false);
       return {
         status: false,
         data: {},
@@ -172,8 +186,9 @@ const request = {
     }
   },
 
-  login: async (url, data) => {
+  login: async (url, data, setLoading) => {
     var myHeaders = new Headers();
+    setLoading(true);
     let result = await fetch(url, {
       method: "POST",
       headers: {
@@ -187,9 +202,11 @@ const request = {
     });
     if (result.ok) {
       SuccessMessage("Đăng nhập thành công", "")
+      setLoading(false);
       return result.json();
     } else {
       FailMessage("Đăng nhập thất bại", "");
+      setLoading(false);
       return {
         status: false,
         data: {},

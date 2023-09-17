@@ -1,0 +1,27 @@
+.modal .btn-ok {
+    background: #04AD8F;
+    color: #fff;
+}
+
+.modal .btn-Cancel {
+    background: #EB0F1C;
+    color: #fff;
+}
+
+.modal .title {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    /* 133.333% */
+    text-align: center;
+}
+
+.modal .message {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 125% */
+    text-align: center;
+}

@@ -3,10 +3,13 @@ import "../../../assets/css/components/Login.css";
 import { ROUTE_PATH } from '../../../core/common/appRouter';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../infrastucture/api';
+import { FullPageLoading } from '../../../infrastucture/common/components/controls/loading';
 export const LoginPage = () => {
     const [changeState, setChangeState] = useState(false);
     const [email, setEmail] = useState("admin@gmail.com");
-    const [password, setPassword] = useState("123456aA")
+    const [password, setPassword] = useState("123456aA");
+    const [loading, setLoading] = useState(false);
+
     // const router = useRouter()
     const onChangeEmail = (e) => {
         setEmail(e.target.value)
@@ -23,7 +26,9 @@ export const LoginPage = () => {
         const login = await api.login({
             email: email,
             password: password,
-        });
+        },
+            setLoading
+        );
         if (login.success == true) {
             sessionStorage.setItem("token", login.data.token)
             navigate(ROUTE_PATH.MAINLAYOUT);
@@ -46,8 +51,8 @@ export const LoginPage = () => {
                     <div className="form-container sign-in-container">
                         <form>
                             <h1>Đăng nhập</h1>
-                            <input onChange={onChangeEmail} type="email" placeholder="Nhập Email" />
-                            <input onChange={onChangePassword} type="password" placeholder="Nhập mật khẩu" />
+                            <input value={email} onChange={onChangeEmail} type="email" placeholder="Nhập Email" />
+                            <input value={password} onChange={onChangePassword} type="password" placeholder="Nhập mật khẩu" />
                             <a>Quên mật khẩu?</a>
                             <button onClick={onSubmit}>Đăng nhập</button>
                         </form>
@@ -69,6 +74,7 @@ export const LoginPage = () => {
                 </div>
 
             </div>
+            <FullPageLoading isLoading={loading} />
         </div>
     )
 }

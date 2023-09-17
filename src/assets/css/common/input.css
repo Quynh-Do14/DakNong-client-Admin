@@ -1,0 +1,35 @@
+.input-common .label {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    text-align: left;
+}
+
+.input-common .label .is-required {
+    color: #FF1422;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+}
+
+.select-common .label {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    text-align: left;
+}
+
+.select-common .label .is-required {
+    color: #FF1422;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.15px;
+}
