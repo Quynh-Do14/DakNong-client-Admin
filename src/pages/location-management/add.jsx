@@ -3,25 +3,24 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/tour/add.css';
+import '../../assets/css/components/user/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
-import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 
-export const AddTourManagement = () => {
+export const AddUserManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
     const [submittedTime, setSubmittedTime] = useState();
 
     const [_data, _setData] = useState({});
-    const dataTour = _data;
+    const dataUser = _data;
 
-    const setDataTour = (data) => {
-        Object.assign(dataTour, { ...data });
-        _setData({ ...dataTour });
+    const setDataUser = (data) => {
+        Object.assign(dataUser, { ...data });
+        _setData({ ...dataUser });
     };
 
     const isValidData = () => {
@@ -41,23 +40,22 @@ export const AddTourManagement = () => {
     const navigate = useNavigate();
 
     const onBack = () => {
-        navigate(ROUTE_PATH.TOUR)
+        navigate(ROUTE_PATH.USER)
     };
 
-    const onCreateTour = async () => {
+    const onCreateUser = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            await api.createTour({
-                tenTour: dataTour.tenTour,
+            await api.createUser({
+                userName: dataUser.userName,
+                password: "123456aA",
                 status: 1,
-                chiPhi: dataTour.chiPhi,
-                ngayBatDau: dataTour.ngayBatDau,
-                ngayKetThuc: dataTour.ngayKetThuc,
-                khoangCach: parseInt(dataTour.khoangCach),
-                soDiaDiem: parseInt(dataTour.soDiaDiem),
-                soNgay: parseInt(dataTour.soNgay),
-                luotXem: 1,
-                userId:1
+                role: dataUser.role,
+                email: dataUser.email,
+                firstName: dataUser.firstName,
+                lastName: dataUser.lastName,
+                sdt: dataUser.sdt,
+                address: dataUser.address
             },
                 onBack,
                 setLoading
@@ -66,85 +64,85 @@ export const AddTourManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý tour" title="Thêm mới" redirect={`${ROUTE_PATH.TOUR}`}>
-                <div className='add-tour-pg'>
+            <MainLayout breadcrumb="Quản lý người dùng" title="Thêm mới" redirect={`${ROUTE_PATH.USER}`}>
+                <div className='add-user-pg'>
                     <div className='title py-3'>
-                        Thêm mới tour
+                        Thêm mới người dùng
                     </div>
                     <div className='content mb-3'>
                         <InputTextCommon
-                            label={"Tên tour"}
-                            attribute={"tenTour"}
+                            label={"Tên người dùng"}
+                            attribute={"userName"}
                             isRequired={true}
-                            dataAttribute={dataTour.tenTour}
-                            setData={setDataTour}
+                            dataAttribute={dataUser.userName}
+                            setData={setDataUser}
+                            disabled={false}
+                            validate={validate}
+                            setValidate={setValidate}
+                            submittedTime={submittedTime}
+                        />
+                        <InputSelectCommon
+                            label={"Phân quyền"}
+                            attribute={"role"}
+                            isRequired={true}
+                            dataAttribute={dataUser.role}
+                            setData={setDataUser}
+                            disabled={false}
+                            validate={validate}
+                            setValidate={setValidate}
+                            submittedTime={submittedTime}
+                            listDataOfItem={Constants.StatusUser.List}
+                        />
+                        <InputTextCommon
+                            label={"Email"}
+                            attribute={"email"}
+                            isRequired={true}
+                            dataAttribute={dataUser.email}
+                            setData={setDataUser}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Chi phí"}
-                            attribute={"chiPhi"}
+                            label={"Họ"}
+                            attribute={"lastName"}
                             isRequired={true}
-                            dataAttribute={dataTour.chiPhi}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Ngày bắt đầu"}
-                            attribute={"ngayBatDau"}
-                            isRequired={true}
-                            dataAttribute={dataTour.ngayBatDau}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Ngày kết thúc"}
-                            attribute={"ngayKetThuc"}
-                            isRequired={true}
-                            dataAttribute={dataTour.ngayKetThuc}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-
-                        <InputTextCommon
-                            label={"Khoảng cách"}
-                            attribute={"khoangCach"}
-                            isRequired={true}
-                            dataAttribute={dataTour.khoangCach}
-                            setData={setDataTour}
+                            dataAttribute={dataUser.lastName}
+                            setData={setDataUser}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Số địa điểm"}
-                            attribute={"soDiaDiem"}
+                            label={"Tên"}
+                            attribute={"firstName"}
                             isRequired={true}
-                            dataAttribute={dataTour.soDiaDiem}
-                            setData={setDataTour}
+                            dataAttribute={dataUser.firstName}
+                            setData={setDataUser}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Số ngày"}
-                            attribute={"soNgay"}
+                            label={"Số điện thoại"}
+                            attribute={"sdt"}
                             isRequired={true}
-                            dataAttribute={dataTour.soNgay}
-                            setData={setDataTour}
+                            dataAttribute={dataUser.sdt}
+                            setData={setDataUser}
+                            disabled={false}
+                            validate={validate}
+                            setValidate={setValidate}
+                            submittedTime={submittedTime}
+                        />
+                        <InputTextCommon
+                            label={"Địa chỉ"}
+                            attribute={"address"}
+                            isRequired={true}
+                            dataAttribute={dataUser.address}
+                            setData={setDataUser}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -157,7 +155,7 @@ export const AddTourManagement = () => {
                                 <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
                             </Col>
                             <Col className='mx-1'>
-                                <Button onClick={onCreateTour} type='primary' className='btn-update'>Thêm mới</Button>
+                                <Button onClick={onCreateUser} type='primary' className='btn-update'>Thêm mới</Button>
                             </Col>
                         </Row>
                     </div>

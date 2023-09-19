@@ -26,10 +26,7 @@ export const ListTourManagement = () => {
     const navigate = useNavigate();
 
     const onGetListTourAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllTour(
-            `${Constants.Params.searchName}=${keyWord}&
-            ${Constants.Params.limit}=${limit}&
-            ${Constants.Params.page}= ${page}`,
+        const response = await api.getAllTour(`${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
             setLoading
         )
         if (response.data.tours?.length > 0) {
@@ -121,7 +118,6 @@ export const ListTourManagement = () => {
                 <div className='tour-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
                         <Col className='title'>Danh sách Tour</Col>
-                        \
                     </Row>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
@@ -215,7 +211,7 @@ export const ListTourManagement = () => {
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
                             currentPage={page}
-                            isLastPage={isLastPage}
+                            // isLastPage={isLastPage}
                             onSelect={onPageSizeChanged}
                             onFirstPage={onFirstPage}
                             onPreviousPage={onPreviousPage}

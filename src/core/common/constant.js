@@ -31,7 +31,7 @@ export default class Constants {
             },
             {
                 label: "Quản lý đánh giá",
-                link: ROUTE_PATH.ADD_EVALUATE,
+                link: ROUTE_PATH.EVALUATE,
                 icon: <TagsOutlined />
             },
             {
@@ -40,7 +40,8 @@ export default class Constants {
                 icon: <ProjectOutlined />
             },
         ]
-    }
+    };
+    static TOKEN = "token";
     static DEBOUNCE_SEARCH = 800;
 
     static Params = class {

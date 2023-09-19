@@ -13,27 +13,53 @@ import { AddCategoryManagement } from "./pages/category-management/add";
 import { ViewCategoryManagement } from "./pages/category-management/view";
 import { AddTourManagement } from "./pages/tour-management/add";
 import { ViewTourManagement } from "./pages/tour-management/view";
+import { PrivateRoute } from "./infrastucture/common/components/router/private-router";
+import { ListDistrictManagement } from "./pages/district-management/list";
+import { ViewDistrictManagement } from "./pages/district-management/view";
+import { AddDistrictManagement } from "./pages/district-management/add";
+import { ListEvaluateManagement } from "./pages/evaluate-management/list";
+import { AddEvaluateManagement } from "./pages/evaluate-management/add";
+import { ViewEvaluateManagement } from "./pages/evaluate-management/view";
+import { ListLocationManagement } from "./pages/location-management/list";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path={ROUTE_PATH.LOGIN} element={<LoginPage />} />
+          {/* <Route path={ROUTE_PATH.LOGIN} element={< PrivateRoute component={LoginPage} />} /> */}
+          <Route path={ROUTE_PATH.LOGIN} element={< LoginPage />} />
           <Route path={ROUTE_PATH.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTE_PATH.MAINLAYOUT} element={<MainLayout />} />
+          <Route path={ROUTE_PATH.MAINLAYOUT} element={<PrivateRoute component={MainLayout} />} />
 
-          <Route path={ROUTE_PATH.USER} element={<ListUserManagement />} />
-          <Route path={ROUTE_PATH.VIEW_USER} element={<ViewUserManagement />} />
-          <Route path={ROUTE_PATH.ADD_USER} element={<AddUserManagement />} />
+          <Route path={ROUTE_PATH.USER} element={<PrivateRoute component={ListUserManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_USER} element={<PrivateRoute component={ViewUserManagement} />} />
+          <Route path={ROUTE_PATH.ADD_USER} element={<PrivateRoute component={AddUserManagement} />} />
 
-          <Route path={ROUTE_PATH.CATEGORY} element={<ListCategoryManagement />} />
-          <Route path={ROUTE_PATH.VIEW_CATEGORY} element={<ViewCategoryManagement />} />
-          <Route path={ROUTE_PATH.ADD_CATEGORY} element={<AddCategoryManagement />} />
+          <Route path={ROUTE_PATH.CATEGORY} element={<PrivateRoute component={ListCategoryManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_CATEGORY} element={<PrivateRoute component={ViewCategoryManagement} />} />
+          <Route path={ROUTE_PATH.ADD_CATEGORY} element={<PrivateRoute component={AddCategoryManagement} />} />
 
-          <Route path={ROUTE_PATH.TOUR} element={<ListTourManagement />} />
-          <Route path={ROUTE_PATH.VIEW_TOUR} element={<ViewTourManagement />} />
-          <Route path={ROUTE_PATH.ADD_TOUR} element={<AddTourManagement />} />
+          <Route path={ROUTE_PATH.TOUR} element={<PrivateRoute component={ListTourManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_TOUR} element={<PrivateRoute component={ViewTourManagement} />} />
+          <Route path={ROUTE_PATH.ADD_TOUR} element={<PrivateRoute component={AddTourManagement} />} />
+
+          <Route path={ROUTE_PATH.DISTRICT} element={<PrivateRoute component={ListDistrictManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_DISTRICT} element={<PrivateRoute component={ViewDistrictManagement} />} />
+          <Route path={ROUTE_PATH.ADD_DISTRICT} element={<PrivateRoute component={AddDistrictManagement} />} />
+
+          <Route path={ROUTE_PATH.NEWS} element={<PrivateRoute component={ListTourManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_NEWS} element={<PrivateRoute component={ViewTourManagement} />} />
+          <Route path={ROUTE_PATH.ADD_NEWS} element={<PrivateRoute component={AddTourManagement} />} />
+
+          <Route path={ROUTE_PATH.LOCATION} element={<PrivateRoute component={ListLocationManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_LOCATION} element={<PrivateRoute component={ViewTourManagement} />} />
+          <Route path={ROUTE_PATH.ADD_LOCATION} element={<PrivateRoute component={AddTourManagement} />} />
+
+          <Route path={ROUTE_PATH.EVALUATE} element={<PrivateRoute component={ListEvaluateManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_EVALUATE} element={<PrivateRoute component={ViewEvaluateManagement} />} />
+          <Route path={ROUTE_PATH.ADD_EVALUATE} element={<PrivateRoute component={AddEvaluateManagement} />} />
+
 
         </Routes>
       </BrowserRouter>

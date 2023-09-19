@@ -43,5 +43,11 @@ export class Endpoint {
         static Tour = "/tour";
         static User = "/user";
         static Category = "/danhmuc";
+        static Location = "/diadiem";
+        static News = "/tintuc";
+        static Evaluate = "/danhgia";
+        static District = "/quanhuyen";
+        static Upload = "/files/upload";
+        static MultiUpload = "/files/upload-multi";
     }
 };

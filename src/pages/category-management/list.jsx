@@ -2,16 +2,14 @@ import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
 import "../../assets/css/components/category/list.css"
-import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
-import { StatusUser } from '../../infrastucture/common/components/controls/status';
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 
 let timeout
@@ -28,11 +26,7 @@ export const ListCategoryManagement = () => {
     const navigate = useNavigate();
 
     const onGetListCategoryAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllCategory(
-            `${Constants.Params.searchName}=${keyWord}&
-            ${Constants.Params.limit}=${limit}&
-            ${Constants.Params.page}= ${page}
-             `,
+        const response = await api.getAllCategory(`${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
             setLoading
         )
         if (response.data.danhMucs?.length > 0) {
@@ -119,7 +113,7 @@ export const ListCategoryManagement = () => {
     return (
         <div>
             <MainLayout breadcrumb="Trang chủ" title="Quản lý danh mục">
-                <div className='user-pg'>
+                <div className='category-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
                         <Col className='title'>Danh sách danh mục</Col>
 

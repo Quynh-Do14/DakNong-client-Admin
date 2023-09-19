@@ -3,7 +3,7 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/tour/add.css';
+import '../../assets/css/components/evaluate/view.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
@@ -11,17 +11,18 @@ import InputSelectCommon from '../../infrastucture/common/components/input/selec
 import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 
-export const AddTourManagement = () => {
+export const ViewEvaluateManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
+    const [detailEvaluate, setDetailEvaluate] = useState({});
     const [submittedTime, setSubmittedTime] = useState();
 
     const [_data, _setData] = useState({});
-    const dataTour = _data;
+    const dataEvaluate = _data;
 
-    const setDataTour = (data) => {
-        Object.assign(dataTour, { ...data });
-        _setData({ ...dataTour });
+    const setDataEvaluate = (data) => {
+        Object.assign(dataEvaluate, { ...data });
+        _setData({ ...dataEvaluate });
     };
 
     const isValidData = () => {
@@ -38,113 +39,138 @@ export const AddTourManagement = () => {
         return allRequestOK;
     };
 
+
     const navigate = useNavigate();
+    useEffect(() => {
+        if (detailEvaluate) {
+            setDataEvaluate({
+                idUser: detailEvaluate.idUser,
+                soSao: detailEvaluate.soSao,
+                noiDung: detailEvaluate.noiDung,
+                thoiGianDanhGia: detailEvaluate.thoiGianDanhGia,
+                idDiaDiem: detailEvaluate.idDiaDiem,
+                idTinTuc: detailEvaluate.idTinTuc,
+                idTour: detailEvaluate.idTour,
+            });
+        };
+    }, [detailEvaluate]);
+    const param = useParams();
+    const onDetailEvaluateAsync = async () => {
+        const response = await api.getEvaluateById({
+            id: param.id,
+
+        },
+            setLoading
+        )
+        setDetailEvaluate(response.danhGia);
+    };
+    useEffect(() => {
+        onDetailEvaluateAsync();
+    }, []);
 
     const onBack = () => {
-        navigate(ROUTE_PATH.TOUR)
+        navigate(ROUTE_PATH.EVALUATE)
     };
 
-    const onCreateTour = async () => {
+    const onUpdateEvaluate = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            await api.createTour({
-                tenTour: dataTour.tenTour,
-                status: 1,
-                chiPhi: dataTour.chiPhi,
-                ngayBatDau: dataTour.ngayBatDau,
-                ngayKetThuc: dataTour.ngayKetThuc,
-                khoangCach: parseInt(dataTour.khoangCach),
-                soDiaDiem: parseInt(dataTour.soDiaDiem),
-                soNgay: parseInt(dataTour.soNgay),
-                luotXem: 1,
-                userId:1
+            await api.updateEvaluate({
+                id: parseInt(param.id),
+                idUser: dataEvaluate.idUser,
+                soSao: dataEvaluate.soSao,
+                noiDung: dataEvaluate.noiDung,
+                thoiGianDanhGia: dataEvaluate.thoiGianDanhGia,
+                idDiaDiem: dataEvaluate.idDiaDiem,
+                idTinTuc: dataEvaluate.idTinTuc,
+                idTour: dataEvaluate.idTour,
             },
                 onBack,
                 setLoading
             )
         }
     };
+
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý tour" title="Thêm mới" redirect={`${ROUTE_PATH.TOUR}`}>
-                <div className='add-tour-pg'>
+            <MainLayout breadcrumb="Quản lý đánh giá" title="Xem chi tiết" redirect={`${ROUTE_PATH.EVALUATE}`}>
+                <div className='view-evaluate-pg'>
                     <div className='title py-3'>
-                        Thêm mới tour
+                        Xem thông tin chi tiết đánh giá
                     </div>
                     <div className='content mb-3'>
                         <InputTextCommon
-                            label={"Tên tour"}
-                            attribute={"tenTour"}
-                            isRequired={true}
-                            dataAttribute={dataTour.tenTour}
-                            setData={setDataTour}
-                            disabled={false}
+                            label={"Người dùng"}
+                            attribute={"userId"}
+                            isRequired={false}
+                            dataAttribute={dataEvaluate.userId}
+                            setData={setDataEvaluate}
+                            disabled={true}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Chi phí"}
-                            attribute={"chiPhi"}
+                            label={"Số sao"}
+                            attribute={"soSao"}
                             isRequired={true}
-                            dataAttribute={dataTour.chiPhi}
-                            setData={setDataTour}
+                            dataAttribute={dataEvaluate.soSao}
+                            setData={setDataEvaluate}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputDateCommon
-                            label={"Ngày bắt đầu"}
-                            attribute={"ngayBatDau"}
+                            label={"Thời gian đánh giá"}
+                            attribute={"thoiGianDanhGia"}
                             isRequired={true}
-                            dataAttribute={dataTour.ngayBatDau}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Ngày kết thúc"}
-                            attribute={"ngayKetThuc"}
-                            isRequired={true}
-                            dataAttribute={dataTour.ngayKetThuc}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-
-                        <InputTextCommon
-                            label={"Khoảng cách"}
-                            attribute={"khoangCach"}
-                            isRequired={true}
-                            dataAttribute={dataTour.khoangCach}
-                            setData={setDataTour}
+                            dataAttribute={dataEvaluate.thoiGianDanhGia}
+                            setData={setDataEvaluate}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Số địa điểm"}
-                            attribute={"soDiaDiem"}
+                            label={"Nội dung"}
+                            attribute={"noiDung"}
                             isRequired={true}
-                            dataAttribute={dataTour.soDiaDiem}
-                            setData={setDataTour}
+                            dataAttribute={dataEvaluate.noiDung}
+                            setData={setDataEvaluate}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
                         />
                         <InputTextCommon
-                            label={"Số ngày"}
-                            attribute={"soNgay"}
+                            label={"Địa điểm"}
+                            attribute={"idDiaDiem"}
                             isRequired={true}
-                            dataAttribute={dataTour.soNgay}
-                            setData={setDataTour}
+                            dataAttribute={dataEvaluate.idDiaDiem}
+                            setData={setDataEvaluate}
+                            disabled={false}
+                            validate={validate}
+                            setValidate={setValidate}
+                            submittedTime={submittedTime}
+                        />
+                        <InputTextCommon
+                            label={"Tin tức"}
+                            attribute={"idTinTuc"}
+                            isRequired={true}
+                            dataAttribute={dataEvaluate.idTinTuc}
+                            setData={setDataEvaluate}
+                            disabled={false}
+                            validate={validate}
+                            setValidate={setValidate}
+                            submittedTime={submittedTime}
+                        />
+                        <InputTextCommon
+                            label={"Tour"}
+                            attribute={"idTour"}
+                            isRequired={true}
+                            dataAttribute={dataEvaluate.idTour}
+                            setData={setDataEvaluate}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -157,13 +183,16 @@ export const AddTourManagement = () => {
                                 <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
                             </Col>
                             <Col className='mx-1'>
-                                <Button onClick={onCreateTour} type='primary' className='btn-update'>Thêm mới</Button>
+                                <Button onClick={onUpdateEvaluate} type='primary' className='btn-update'>Cập nhật</Button>
+                            </Col>
+                            <Col className='mx-1'>
+                                <Button onClick={onBack} type='primary' className='btn-cancel'>Hủy bỏ</Button>
                             </Col>
                         </Row>
                     </div>
                 </div>
-            </MainLayout>
+            </MainLayout >
             <FullPageLoading isLoading={loading} />
-        </div>
+        </div >
     )
 }

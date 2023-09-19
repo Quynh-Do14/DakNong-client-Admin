@@ -52,7 +52,7 @@ const request = {
         });
     });
   },
-  postUploadFile: async (url, data) => {
+  postUploadFile: async (url, data, setLoading) => {
     let result = await fetch(url, {
       method: "POST",
       // headers: myHeaders,
@@ -62,9 +62,13 @@ const request = {
       console.log(e);
     });
     console.log(result);
+    setLoading(true)
     if (result.ok) {
+      SuccessMessage("Upload dữ liệu thành công", "Dữ liệu đã được upload thành công")
+      setLoading(false)
       return result.json();
     } else {
+      setLoading(false)
       return {
         status: false,
         data: {},

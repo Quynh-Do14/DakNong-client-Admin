@@ -1,7 +1,7 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/user/list.css"
+import "../../assets/css/components/district/list.css"
 import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
@@ -15,7 +15,7 @@ import { StatusUser } from '../../infrastucture/common/components/controls/statu
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 
 let timeout
-export const ListUserManagement = () => {
+export const ListDistrictManagement = () => {
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -24,20 +24,20 @@ export const ListUserManagement = () => {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
     const [idSelected, setIdSelected] = useState(null);
     const [pagination, setPagination] = useState({});
+
     const navigate = useNavigate();
 
-    const onGetListUserAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllUser(
-            `${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
+    const onGetListDistrictAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
+        const response = await api.getAllDistrict(`${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
             setLoading
         )
-        if (response.data.users?.length > 0) {
-            setData(response.data.users);
+        if (response.data.quanHuyens?.length > 0) {
+            setData(response.data.quanHuyens);
         }
         setPagination(response.data.pagination);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
-        await onGetListUserAsync({ keyWord: keyWord, limit: limit, page: page })
+        await onGetListDistrictAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
     useEffect(() => {
@@ -76,7 +76,7 @@ export const ListUserManagement = () => {
         setPageSize(value);
         setSearchText("");
         setPage(1);
-        onSearch(searchText, value, page).then((_) => { });
+        onSearch(searchText, pageSize, value).then((_) => { });
     };
 
     const onOpenModalDelete = (id) => {
@@ -87,8 +87,8 @@ export const ListUserManagement = () => {
     const onCloseModalDelete = () => {
         setIsDeleteModal(false);
     };
-    const onDeleteUser = async () => {
-        await api.deleteUser({
+    const onDeleteDistrict = async () => {
+        await api.deleteDistrict({
             id: idSelected
         },
             onSearch,
@@ -97,16 +97,16 @@ export const ListUserManagement = () => {
         setIsDeleteModal(false);
     };
 
-    const onNavigate = (id) => {
-        navigate(`${(ROUTE_PATH.VIEW_USER).replace(`${Constants.UseParams.Id}`, "")}${id}`);
+    const onNavigate = (idQuanHuyen) => {
+        navigate(`${(ROUTE_PATH.VIEW_DISTRICT).replace(`${Constants.UseParams.Id}`, "")}${idQuanHuyen}`);
     }
     const listAction = (record) => {
         return (
             <Menu>
-                <Menu.Item className='title-action' onClick={() => onNavigate(record.id)}>
+                <Menu.Item className='title-action' onClick={() => onNavigate(record.idQuanHuyen)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Sửa</div>
                 </Menu.Item>
-                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.id)}>
+                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idQuanHuyen)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Xóa</div>
                 </Menu.Item>
             </Menu>
@@ -114,10 +114,11 @@ export const ListUserManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý người dùng">
-                <div className='user-pg'>
+            <MainLayout breadcrumb="Trang chủ" title="Quản lý quận huyện">
+                <div className='district-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách người dùng</Col>
+                        <Col className='title'>Danh sách quận huyện</Col>
+
                     </Row>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
@@ -132,7 +133,7 @@ export const ListUserManagement = () => {
 
                         </Col>
                         <Col>
-                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_DISTRICT)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
                     <Table
@@ -140,39 +141,22 @@ export const ListUserManagement = () => {
                         pagination={false}
                     >
                         <Column
-                            title={"Tên người dùng"}
-                            key={"userName"}
-                            dataIndex={"userName"}
+                            title={"STT"}
+                            key={"stt"}
+                            dataIndex={"stt"}
+                            render={(value, record, index) => (
+                                <div>{index + 1} </div>
+                            )}
                         />
                         <Column
-                            title={"Phân quyền"}
-                            key={"role"}
-                            dataIndex={"role"}
-                            render={(value) => {
-                                return (
-                                    <div>{StatusUser(value)} </div>
-                                )
-                            }}
+                            title={"Tên quận huyện"}
+                            key={"tenQuanHuyen"}
+                            dataIndex={"tenQuanHuyen"}
                         />
                         <Column
-                            title={"Họ"}
-                            key={"lastName"}
-                            dataIndex={"lastName"}
-                        />
-                        <Column
-                            title={"Tên"}
-                            key={"firstName"}
-                            dataIndex={"firstName"}
-                        />
-                        <Column
-                            title={"Số điện thoại"}
-                            key={"sdt"}
-                            dataIndex={"sdt"}
-                        />
-                        <Column
-                            title={"Địa chỉ"}
-                            key={"address"}
-                            dataIndex={"address"}
+                            title={"Trạng thái"}
+                            key={"status"}
+                            dataIndex={"status"}
                         />
                         <Column
                             title={"Thao tác"}
@@ -192,6 +176,7 @@ export const ListUserManagement = () => {
                                         <MenuOutlined className="pointer" />
                                     </Dropdown>
                                 </Space>
+                                // </CommonPermission>
                             )}
                         />
                     </Table>
@@ -210,12 +195,12 @@ export const ListUserManagement = () => {
                 </div>
             </MainLayout>
             <DialogConfirmCommon
-                message={"Bạn có muốn xóa người dùng này ra khỏi hệ thống"}
+                message={"Bạn có muốn xóa quận huyện này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
-                titleOk={"Xóa người dùng"}
+                titleOk={"Xóa quận huyện"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteUser}
+                handleOk={onDeleteDistrict}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />

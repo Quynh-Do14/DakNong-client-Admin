@@ -30,7 +30,7 @@ const InputTextCommon = (props) => {
     const onBlur = (isImplicitChange = false) => {
         let checkValidate
         if (isRequired) {
-            validateFields(isImplicitChange, attribute, !value, setValidate, validate, !value ? `Vui lòng nhập đúng định dạng ${labelLower}` : "");
+            validateFields(isImplicitChange, attribute, !value, setValidate, validate, !value ? `Vui lòng nhập ${labelLower}` : "");
         }
 
         if (attribute.includes("email")) {
@@ -43,7 +43,6 @@ const InputTextCommon = (props) => {
         }
 
     };
-    console.log('validate1', validate);
 
     useEffect(() => {
         setValue(dataAttribute || '');

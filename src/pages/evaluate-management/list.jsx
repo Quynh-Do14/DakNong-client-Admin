@@ -1,21 +1,20 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/user/list.css"
-import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import "../../assets/css/components/evaluate/list.css"
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
+import { DebounceInput, convertDateOnly } from '../../infrastucture/utils/helper';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
-import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
-import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
-import { StatusUser } from '../../infrastucture/common/components/controls/status';
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
+import { useNavigate } from 'react-router-dom';
+import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
 
 let timeout
-export const ListUserManagement = () => {
+export const ListEvaluateManagement = () => {
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -26,18 +25,17 @@ export const ListUserManagement = () => {
     const [pagination, setPagination] = useState({});
     const navigate = useNavigate();
 
-    const onGetListUserAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllUser(
-            `${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
+    const onGetListEvaluateAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
+        const response = await api.getAllEvaluate(`${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
             setLoading
         )
-        if (response.data.users?.length > 0) {
-            setData(response.data.users);
+        if (response.data.danhGias?.length > 0) {
+            setData(response.data.danhGias)
         }
         setPagination(response.data.pagination);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
-        await onGetListUserAsync({ keyWord: keyWord, limit: limit, page: page })
+        await onGetListEvaluateAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
     useEffect(() => {
@@ -86,9 +84,10 @@ export const ListUserManagement = () => {
 
     const onCloseModalDelete = () => {
         setIsDeleteModal(false);
-    };
-    const onDeleteUser = async () => {
-        await api.deleteUser({
+    }
+
+    const onDeleteEvaluate = async () => {
+        await api.deleteEvaluate({
             id: idSelected
         },
             onSearch,
@@ -97,16 +96,17 @@ export const ListUserManagement = () => {
         setIsDeleteModal(false);
     };
 
-    const onNavigate = (id) => {
-        navigate(`${(ROUTE_PATH.VIEW_USER).replace(`${Constants.UseParams.Id}`, "")}${id}`);
+    const onNavigate = (idDanhGia) => {
+        navigate(`${(ROUTE_PATH.VIEW_EVALUATE).replace(`${Constants.UseParams.Id}`, "")}${idDanhGia}`);
     }
+
     const listAction = (record) => {
         return (
             <Menu>
-                <Menu.Item className='title-action' onClick={() => onNavigate(record.id)}>
+                <Menu.Item className='title-action' onClick={() => onNavigate(record.idDanhGia)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Sửa</div>
                 </Menu.Item>
-                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.id)}>
+                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idDanhGia)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Xóa</div>
                 </Menu.Item>
             </Menu>
@@ -114,10 +114,11 @@ export const ListUserManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý người dùng">
-                <div className='user-pg'>
+            <MainLayout breadcrumb="Trang chủ" title="Quản lý Evaluate">
+                <div className='evaluate-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách người dùng</Col>
+                        <Col className='title'>Danh sách Evaluate</Col>
+                        \
                     </Row>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
@@ -132,7 +133,7 @@ export const ListUserManagement = () => {
 
                         </Col>
                         <Col>
-                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_EVALUATE)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
                     <Table
@@ -140,42 +141,51 @@ export const ListUserManagement = () => {
                         pagination={false}
                     >
                         <Column
-                            title={"Tên người dùng"}
-                            key={"userName"}
-                            dataIndex={"userName"}
+                            title={"Đánh giá"}
+                            key={"idDanhGia"}
+                            dataIndex={"idDanhGia"}
                         />
                         <Column
-                            title={"Phân quyền"}
-                            key={"role"}
-                            dataIndex={"role"}
-                            render={(value) => {
-                                return (
-                                    <div>{StatusUser(value)} </div>
-                                )
-                            }}
+                            title={"Địa điểm"}
+                            key={"idDiaDiem"}
+                            dataIndex={"idDiaDiem"}
                         />
                         <Column
-                            title={"Họ"}
-                            key={"lastName"}
-                            dataIndex={"lastName"}
+                            title={"Tin tức"}
+                            key={"idTinTuc"}
+                            dataIndex={"idTinTuc"}
+                        />
+
+                        <Column
+                            title={"Tour"}
+                            key={"idTour"}
+                            dataIndex={"idTour"}
                         />
                         <Column
-                            title={"Tên"}
-                            key={"firstName"}
-                            dataIndex={"firstName"}
+                            title={"Nội dung"}
+                            key={"noiDung"}
+                            dataIndex={"noiDung"}
                         />
                         <Column
-                            title={"Số điện thoại"}
-                            key={"sdt"}
-                            dataIndex={"sdt"}
+                            title={"Số sao"}
+                            key={"soSao"}
+                            dataIndex={"soSao"}
                         />
                         <Column
-                            title={"Địa chỉ"}
-                            key={"address"}
-                            dataIndex={"address"}
+                            title={"Thời gian đánh giá"}
+                            key={"thoiGianDanhGia"}
+                            dataIndex={"thoiGianDanhGia"}
+                            render={(val) => (
+                                <div>{convertDateOnly(val)} </div>
+                            )}
                         />
                         <Column
-                            title={"Thao tác"}
+                            title={"Người dùng"}
+                            key={"userId"}
+                            dataIndex={"userId"}
+                        />
+                        <Column
+                            title={"Action"}
                             // width={"60px"}
                             fixed="right"
                             align='center'
@@ -194,7 +204,7 @@ export const ListUserManagement = () => {
                                 </Space>
                             )}
                         />
-                    </Table>
+                    </Table>;
                     <div className='py-4'>
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
@@ -215,10 +225,11 @@ export const ListUserManagement = () => {
                 titleOk={"Xóa người dùng"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteUser}
+                handleOk={onDeleteEvaluate}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
-        </div >
+        </div>
+
     )
 }

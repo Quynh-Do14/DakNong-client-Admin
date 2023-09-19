@@ -3,23 +3,22 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/category/view.css';
+import '../../assets/css/components/district/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 
-export const ViewCategoryManagement = () => {
+export const AddDistrictManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
-    const [detailCategory, setDetailCategory] = useState({});
     const [submittedTime, setSubmittedTime] = useState();
 
     const [_data, _setData] = useState({});
-    const dataCategory = _data;
+    const dataDistrict = _data;
 
-    const setDataCategory = (data) => {
-        Object.assign(dataCategory, { ...data });
-        _setData({ ...dataCategory });
+    const setDataDistrict = (data) => {
+        Object.assign(dataDistrict, { ...data });
+        _setData({ ...dataDistrict });
     };
 
     const isValidData = () => {
@@ -37,60 +36,37 @@ export const ViewCategoryManagement = () => {
     };
 
     const navigate = useNavigate();
-    useEffect(() => {
-        if (detailCategory) {
-            setDataCategory({
-                tenDanhMuc: detailCategory.tenDanhMuc,
-                status: detailCategory.status,
-            });
-        };
-    }, [detailCategory]);
-    const param = useParams();
-    const onDetailCategoryAsync = async () => {
-        const response = await api.getCategoryById({
-            id: param.id,
-
-        },
-            setLoading
-        )
-        setDetailCategory(response.danhMuc);
-    };
-    useEffect(() => {
-        onDetailCategoryAsync();
-    }, []);
 
     const onBack = () => {
-        navigate(ROUTE_PATH.CATEGORY)
+        navigate(ROUTE_PATH.DISTRICT)
     };
 
-    const onUpdateCategory = async () => {
+    const onCreateDistrict = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            await api.updateCategory({
-                idDanhMucDiaDiem: param.id,
-                tenDanhMuc: dataCategory.tenDanhMuc,
-                status: dataCategory.status,
+            await api.createDistrict({
+                tenQuanHuyen: dataDistrict.tenQuanHuyen,
+                status: 1,
             },
                 onBack,
                 setLoading
             )
         }
     };
-
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý danh mục" title="Xem chi tiết" redirect={`${ROUTE_PATH.CATEGORY}`}>
-                <div className='view-category-pg'>
+            <MainLayout breadcrumb="Quản lý quận huyện" title="Thêm mới" redirect={`${ROUTE_PATH.DISTRICT}`}>
+                <div className='add-district-pg'>
                     <div className='title py-3'>
-                        Xem thông tin chi tiết danh mục
+                        Thêm mới quận huyện
                     </div>
                     <div className='content mb-3'>
                         <InputTextCommon
-                            label={"Tên danh mục"}
-                            attribute={"tenDanhMuc"}
+                            label={"Tên quận huyện"}
+                            attribute={"tenQuanHuyen"}
                             isRequired={true}
-                            dataAttribute={dataCategory.tenDanhMuc}
-                            setData={setDataCategory}
+                            dataAttribute={dataDistrict.tenQuanHuyen}
+                            setData={setDataDistrict}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -103,16 +79,13 @@ export const ViewCategoryManagement = () => {
                                 <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
                             </Col>
                             <Col className='mx-1'>
-                                <Button onClick={onUpdateCategory} type='primary' className='btn-update'>Cập nhật</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='primary' className='btn-cancel'>Hủy bỏ</Button>
+                                <Button onClick={onCreateDistrict} type='primary' className='btn-update'>Thêm mới</Button>
                             </Col>
                         </Row>
                     </div>
                 </div>
-            </MainLayout >
+            </MainLayout>
             <FullPageLoading isLoading={loading} />
-        </div >
+        </div>
     )
 }

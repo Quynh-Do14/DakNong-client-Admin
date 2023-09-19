@@ -4,6 +4,7 @@ import { Col, DatePicker, Row } from 'antd';
 import moment from 'moment';
 import { MessageError } from '../controls/MessageError';
 import { validateFields } from '../../../utils/helper';
+import dayjs from 'dayjs';
 
 const InputDateCommon = (props) => {
     const { label, attribute, setData, validate, setValidate, isRequired, data,
@@ -37,7 +38,7 @@ const InputDateCommon = (props) => {
     }
     useEffect(() => {
         if (dataAttribute) {
-            setValue(moment(dataAttribute) || null);
+            setValue(dayjs  (dataAttribute) || null);
         }
     }, [dataAttribute]);
 

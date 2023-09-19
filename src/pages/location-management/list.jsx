@@ -1,21 +1,19 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/user/list.css"
-import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import "../../assets/css/components/location/list.css"
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
-import { StatusUser } from '../../infrastucture/common/components/controls/status';
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 
 let timeout
-export const ListUserManagement = () => {
+export const ListLocationManagement = () => {
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -26,18 +24,18 @@ export const ListUserManagement = () => {
     const [pagination, setPagination] = useState({});
     const navigate = useNavigate();
 
-    const onGetListUserAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllUser(
-            `${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
+    const onGetListLocationAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
+        const response = await api.getAllLocation(
+            `${Constants.Params.searchName.trim()}=${keyWord}&${Constants.Params.limit.trim()}=${limit}&${Constants.Params.page.trim()}= ${page}`,
             setLoading
         )
-        if (response.data.users?.length > 0) {
-            setData(response.data.users);
+        if (response.data.diaDiems?.length > 0) {
+            setData(response.data.diaDiems);
         }
         setPagination(response.data.pagination);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
-        await onGetListUserAsync({ keyWord: keyWord, limit: limit, page: page })
+        await onGetListLocationAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
     useEffect(() => {
@@ -87,8 +85,8 @@ export const ListUserManagement = () => {
     const onCloseModalDelete = () => {
         setIsDeleteModal(false);
     };
-    const onDeleteUser = async () => {
-        await api.deleteUser({
+    const onDeleteLocation = async () => {
+        await api.deleteLocation({
             id: idSelected
         },
             onSearch,
@@ -98,7 +96,7 @@ export const ListUserManagement = () => {
     };
 
     const onNavigate = (id) => {
-        navigate(`${(ROUTE_PATH.VIEW_USER).replace(`${Constants.UseParams.Id}`, "")}${id}`);
+        navigate(`${(ROUTE_PATH.VIEW_LOCATION).replace(`${Constants.UseParams.Id}`, "")}${id}`);
     }
     const listAction = (record) => {
         return (
@@ -115,7 +113,7 @@ export const ListUserManagement = () => {
     return (
         <div>
             <MainLayout breadcrumb="Trang chủ" title="Quản lý người dùng">
-                <div className='user-pg'>
+                <div className='Location-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
                         <Col className='title'>Danh sách người dùng</Col>
                     </Row>
@@ -132,7 +130,7 @@ export const ListUserManagement = () => {
 
                         </Col>
                         <Col>
-                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_LOCATION)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
                     <Table
@@ -141,18 +139,8 @@ export const ListUserManagement = () => {
                     >
                         <Column
                             title={"Tên người dùng"}
-                            key={"userName"}
-                            dataIndex={"userName"}
-                        />
-                        <Column
-                            title={"Phân quyền"}
-                            key={"role"}
-                            dataIndex={"role"}
-                            render={(value) => {
-                                return (
-                                    <div>{StatusUser(value)} </div>
-                                )
-                            }}
+                            key={"LocationName"}
+                            dataIndex={"LocationName"}
                         />
                         <Column
                             title={"Họ"}
@@ -215,7 +203,7 @@ export const ListUserManagement = () => {
                 titleOk={"Xóa người dùng"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteUser}
+                handleOk={onDeleteLocation}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
