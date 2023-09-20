@@ -21,6 +21,9 @@ import { ListEvaluateManagement } from "./pages/evaluate-management/list";
 import { AddEvaluateManagement } from "./pages/evaluate-management/add";
 import { ViewEvaluateManagement } from "./pages/evaluate-management/view";
 import { ListLocationManagement } from "./pages/location-management/list";
+import { ListNewsManagement } from "./pages/news-management/list";
+import { AddNewsManagement } from "./pages/news-management/add";
+import { ViewNewsManagement } from "./pages/news-management/view";
 
 function App() {
   return (
@@ -48,9 +51,9 @@ function App() {
           <Route path={ROUTE_PATH.VIEW_DISTRICT} element={<PrivateRoute component={ViewDistrictManagement} />} />
           <Route path={ROUTE_PATH.ADD_DISTRICT} element={<PrivateRoute component={AddDistrictManagement} />} />
 
-          <Route path={ROUTE_PATH.NEWS} element={<PrivateRoute component={ListTourManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_NEWS} element={<PrivateRoute component={ViewTourManagement} />} />
-          <Route path={ROUTE_PATH.ADD_NEWS} element={<PrivateRoute component={AddTourManagement} />} />
+          <Route path={ROUTE_PATH.NEWS} element={<PrivateRoute component={ListNewsManagement} />} />
+          <Route path={ROUTE_PATH.VIEW_NEWS} element={<PrivateRoute component={ViewNewsManagement} />} />
+          <Route path={ROUTE_PATH.ADD_NEWS} element={<PrivateRoute component={AddNewsManagement} />} />
 
           <Route path={ROUTE_PATH.LOCATION} element={<PrivateRoute component={ListLocationManagement} />} />
           <Route path={ROUTE_PATH.VIEW_LOCATION} element={<PrivateRoute component={ViewTourManagement} />} />
@@ -58,7 +61,7 @@ function App() {
 
           <Route path={ROUTE_PATH.EVALUATE} element={<PrivateRoute component={ListEvaluateManagement} />} />
           <Route path={ROUTE_PATH.VIEW_EVALUATE} element={<PrivateRoute component={ViewEvaluateManagement} />} />
-          <Route path={ROUTE_PATH.ADD_EVALUATE} element={<PrivateRoute component={AddEvaluateManagement} />} />
+          {/* <Route path={ROUTE_PATH.ADD_EVALUATE} element={<PrivateRoute component={AddEvaluateManagement} />} /> */}
 
 
         </Routes>

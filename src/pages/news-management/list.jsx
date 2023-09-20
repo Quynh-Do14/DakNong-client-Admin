@@ -1,20 +1,20 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/evaluate/list.css"
+import "../../assets/css/components/news/list.css"
 import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
-import { DebounceInput, convertDateOnly } from '../../infrastucture/utils/helper';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { ROUTE_PATH } from '../../core/common/appRouter';
-import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
+import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
+import { convertDateOnly } from '../../infrastucture/utils/helper';
 
 let timeout
-export const ListEvaluateManagement = () => {
+export const ListNewsManagement = () => {
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -25,17 +25,18 @@ export const ListEvaluateManagement = () => {
     const [pagination, setPagination] = useState({});
     const navigate = useNavigate();
 
-    const onGetListEvaluateAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
-        const response = await api.getAllEvaluate(`${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}= ${page}`,
+    const onGetListNewsAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
+        const response = await api.getAllNews(
+            `${Constants.Params.searchName}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}=${page}`,
             setLoading
         )
-        if (response.data.danhGias?.length > 0) {
-            setData(response.data.danhGias)
+        if (response.data.tinTucs?.length > 0) {
+            setData(response.data.tinTucs);
         }
         setPagination(response.data.pagination);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
-        await onGetListEvaluateAsync({ keyWord: keyWord, limit: limit, page: page })
+        await onGetListNewsAsync({ keyWord: keyWord, limit: limit, page: page })
     };
 
     useEffect(() => {
@@ -84,10 +85,9 @@ export const ListEvaluateManagement = () => {
 
     const onCloseModalDelete = () => {
         setIsDeleteModal(false);
-    }
-
-    const onDeleteEvaluate = async () => {
-        await api.deleteEvaluate({
+    };
+    const onDeleteNews = async () => {
+        await api.deleteNews({
             id: idSelected
         },
             onSearch,
@@ -96,17 +96,16 @@ export const ListEvaluateManagement = () => {
         setIsDeleteModal(false);
     };
 
-    const onNavigate = (idDanhGia) => {
-        navigate(`${(ROUTE_PATH.VIEW_EVALUATE).replace(`${Constants.UseParams.Id}`, "")}${idDanhGia}`);
+    const onNavigate = (id) => {
+        navigate(`${(ROUTE_PATH.VIEW_NEWS).replace(`${Constants.UseParams.Id}`, "")}${id}`);
     }
-
     const listAction = (record) => {
         return (
             <Menu>
-                <Menu.Item className='title-action' onClick={() => onNavigate(record.idDanhGia)}>
+                <Menu.Item className='title-action' onClick={() => onNavigate(record.idTinTuc)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Sửa</div>
                 </Menu.Item>
-                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idDanhGia)}>
+                <Menu.Item className='title-action' onClick={() => onOpenModalDelete(record.idTinTuc)}>
                     <div className='text-base weight-600 px-1 py-0-5'>Xóa</div>
                 </Menu.Item>
             </Menu>
@@ -114,10 +113,10 @@ export const ListEvaluateManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý Evaluate">
-                <div className='evaluate-pg'>
+            <MainLayout breadcrumb="Trang chủ" title="Quản lý tin tức">
+                <div className='news-pg'>
                     <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách đánh giá</Col>
+                        <Col className='title'>Danh sách tin tức</Col>
                     </Row>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
@@ -131,57 +130,49 @@ export const ListEvaluateManagement = () => {
                             </Row>
 
                         </Col>
+                        <Col>
+                            <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_NEWS)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
+                        </Col>
                     </Row>
                     <Table
                         dataSource={data}
                         pagination={false}
                     >
                         <Column
-                            title={"Đánh giá"}
-                            key={"idDanhGia"}
-                            dataIndex={"idDanhGia"}
-                        />
-                        <Column
-                            title={"Địa điểm"}
-                            key={"idDiaDiem"}
-                            dataIndex={"idDiaDiem"}
-                        />
-                        <Column
-                            title={"Tin tức"}
+                            title={"Id"}
                             key={"idTinTuc"}
                             dataIndex={"idTinTuc"}
                         />
-
                         <Column
-                            title={"Tour"}
-                            key={"idTour"}
-                            dataIndex={"idTour"}
+                            title={"Tiêu đề"}
+                            key={"tieuDe"}
+                            dataIndex={"tieuDe"}
                         />
                         <Column
-                            title={"Nội dung"}
-                            key={"noiDung"}
-                            dataIndex={"noiDung"}
+                            title={"Tiêu đề con"}
+                            key={"tieuDeCon"}
+                            dataIndex={"tieuDe"}
                         />
                         <Column
-                            title={"Số sao"}
-                            key={"soSao"}
-                            dataIndex={"soSao"}
-                        />
-                        <Column
-                            title={"Thời gian đánh giá"}
-                            key={"thoiGianDanhGia"}
-                            dataIndex={"thoiGianDanhGia"}
+                            title={"Ngày đăng"}
+                            key={"ngayDang"}
+                            dataIndex={"ngayDang"}
                             render={(val) => (
                                 <div>{convertDateOnly(val)} </div>
                             )}
                         />
                         <Column
-                            title={"Người dùng"}
-                            key={"userId"}
-                            dataIndex={"userId"}
+                            title={"Lượt xem"}
+                            key={"luotXem"}
+                            dataIndex={"luotXem"}
                         />
                         <Column
-                            title={"Action"}
+                            title={"Địa chỉ"}
+                            key={"diaChi"}
+                            dataIndex={"diaChi"}
+                        />
+                        <Column
+                            title={"Thao tác"}
                             // width={"60px"}
                             fixed="right"
                             align='center'
@@ -200,7 +191,7 @@ export const ListEvaluateManagement = () => {
                                 </Space>
                             )}
                         />
-                    </Table>;
+                    </Table>
                     <div className='py-4'>
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
@@ -216,16 +207,15 @@ export const ListEvaluateManagement = () => {
                 </div>
             </MainLayout>
             <DialogConfirmCommon
-                message={"Bạn có muốn xóa người dùng này ra khỏi hệ thống"}
+                message={"Bạn có muốn xóa tin tức này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
-                titleOk={"Xóa người dùng"}
+                titleOk={"Xóa tin tức"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteEvaluate}
+                handleOk={onDeleteNews}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
-        </div>
-
+        </div >
     )
 }

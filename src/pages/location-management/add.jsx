@@ -3,24 +3,24 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/user/add.css';
+import '../../assets/css/components/location/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
 
-export const AddUserManagement = () => {
+export const AddLocationManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
     const [submittedTime, setSubmittedTime] = useState();
 
     const [_data, _setData] = useState({});
-    const dataUser = _data;
+    const dataLocation = _data;
 
-    const setDataUser = (data) => {
-        Object.assign(dataUser, { ...data });
-        _setData({ ...dataUser });
+    const setDataLocation = (data) => {
+        Object.assign(dataLocation, { ...data });
+        _setData({ ...dataLocation });
     };
 
     const isValidData = () => {
@@ -40,22 +40,22 @@ export const AddUserManagement = () => {
     const navigate = useNavigate();
 
     const onBack = () => {
-        navigate(ROUTE_PATH.USER)
+        navigate(ROUTE_PATH.LOCATION)
     };
 
-    const onCreateUser = async () => {
+    const onCreateLocation = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            await api.createUser({
-                userName: dataUser.userName,
+            await api.createLocation({
+                LocationName: dataLocation.LocationName,
                 password: "123456aA",
                 status: 1,
-                role: dataUser.role,
-                email: dataUser.email,
-                firstName: dataUser.firstName,
-                lastName: dataUser.lastName,
-                sdt: dataUser.sdt,
-                address: dataUser.address
+                role: dataLocation.role,
+                email: dataLocation.email,
+                firstName: dataLocation.firstName,
+                lastName: dataLocation.lastName,
+                sdt: dataLocation.sdt,
+                address: dataLocation.address
             },
                 onBack,
                 setLoading
@@ -64,18 +64,18 @@ export const AddUserManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý người dùng" title="Thêm mới" redirect={`${ROUTE_PATH.USER}`}>
-                <div className='add-user-pg'>
+            <MainLayout breadcrumb="Quản lý địa điểm" title="Thêm mới" redirect={`${ROUTE_PATH.LOCATION}`}>
+                <div className='add-Location-pg'>
                     <div className='title py-3'>
-                        Thêm mới người dùng
+                        Thêm mới địa điểm
                     </div>
                     <div className='content mb-3'>
                         <InputTextCommon
-                            label={"Tên người dùng"}
-                            attribute={"userName"}
+                            label={"Tên địa điểm"}
+                            attribute={"LocationName"}
                             isRequired={true}
-                            dataAttribute={dataUser.userName}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.LocationName}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -85,20 +85,20 @@ export const AddUserManagement = () => {
                             label={"Phân quyền"}
                             attribute={"role"}
                             isRequired={true}
-                            dataAttribute={dataUser.role}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.role}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
                             submittedTime={submittedTime}
-                            listDataOfItem={Constants.StatusUser.List}
+                            listDataOfItem={Constants.StatusLocation.List}
                         />
                         <InputTextCommon
                             label={"Email"}
                             attribute={"email"}
                             isRequired={true}
-                            dataAttribute={dataUser.email}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.email}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -108,8 +108,8 @@ export const AddUserManagement = () => {
                             label={"Họ"}
                             attribute={"lastName"}
                             isRequired={true}
-                            dataAttribute={dataUser.lastName}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.lastName}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -119,8 +119,8 @@ export const AddUserManagement = () => {
                             label={"Tên"}
                             attribute={"firstName"}
                             isRequired={true}
-                            dataAttribute={dataUser.firstName}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.firstName}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -130,8 +130,8 @@ export const AddUserManagement = () => {
                             label={"Số điện thoại"}
                             attribute={"sdt"}
                             isRequired={true}
-                            dataAttribute={dataUser.sdt}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.sdt}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -141,8 +141,8 @@ export const AddUserManagement = () => {
                             label={"Địa chỉ"}
                             attribute={"address"}
                             isRequired={true}
-                            dataAttribute={dataUser.address}
-                            setData={setDataUser}
+                            dataAttribute={dataLocation.address}
+                            setData={setDataLocation}
                             disabled={false}
                             validate={validate}
                             setValidate={setValidate}
@@ -155,7 +155,7 @@ export const AddUserManagement = () => {
                                 <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
                             </Col>
                             <Col className='mx-1'>
-                                <Button onClick={onCreateUser} type='primary' className='btn-update'>Thêm mới</Button>
+                                <Button onClick={onCreateLocation} type='primary' className='btn-update'>Thêm mới</Button>
                             </Col>
                         </Row>
                     </div>

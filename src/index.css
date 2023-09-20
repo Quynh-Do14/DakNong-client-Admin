@@ -23,6 +23,10 @@ code {
   display: flex;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .align-center {
   align-items: center;
 }
@@ -31,16 +35,20 @@ code {
   justify-content: center;
 }
 
-.col-direction {
+.flex-col {
   flex-direction: column;
 }
 
-.row-direction {
+.flex-row {
   flex-direction: row;
 }
 
 .justify-start {
   justify-content: flex-start;
+}
+
+.auto {
+  overflow: auto;
 }
 
 .w-100 {
@@ -67,10 +75,6 @@ code {
   font-weight: 600;
 }
 
-.title-action {
-  border-bottom: 1px solid #c2c2c2;
-}
-
 .message-error {
   font-weight: 600;
   text-align: left;
@@ -90,6 +94,20 @@ code {
   z-index: 99999;
 }
 
+aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed {
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
+}
+
+aside.ant-layout-sider.ant-layout-sider-dark {
+  flex: 0 0 240px !important;
+  max-width: 240px !important;
+  min-width: 240px !important;
+  width: 240px !important;
+}
+
 :where(.css-dev-only-do-not-override-18iikkb).ant-layout .ant-layout-sider-children {
   background: #3f474e;
 }
@@ -100,10 +118,11 @@ code {
 :where(.css-dev-only-do-not-override-18iikkb).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
   background: #3f474e;
   height: 87.8vh;
+  padding-top: 10px;
 }
 
 li.ant-menu-item.menu-title {
-  padding-left: 24px;
+  padding-left: 32px;
   background: #3f474e;
   border-radius: 5px;
   margin: 0px;
@@ -129,7 +148,7 @@ li.ant-menu-item.active {
 .active span.ant-menu-title-content:hover,
 .active span.ant-menu-title-content:hover,
 :where(.css-dev-only-do-not-override-18iikkb).ant-menu .ant-menu-item .ant-menu-item-icon svg:hover,
-:where(.css-dev-only-do-not-override-18iikkb).ant-menu .ant-menu-submenu-title .ant-menu-item-icon svg:hover{
+:where(.css-dev-only-do-not-override-18iikkb).ant-menu .ant-menu-submenu-title .ant-menu-item-icon svg:hover {
   color: #c2c7d0;
 }
 
@@ -190,6 +209,16 @@ span.ant-menu-title-content,
   letter-spacing: 0.15px;
 }
 
+.input-common input.ant-input-number-input {
+  border-radius: 0px !important;
+  color: var(--00-on-surface-high-emphasis, rgba(0, 0, 0, 0.87));
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  /* line-height: 24px; */
+  letter-spacing: 0.15px;
+}
+
 button.ant-btn.css-dev-only-do-not-override-18iikkb.ant-btn-default.btn-on-page {
   border: none;
 }
@@ -205,6 +234,12 @@ button.ant-btn.css-dev-only-do-not-override-18iikkb.ant-btn-default.btn-on-page:
   height: 33.56px;
 }
 
+.table-common .ant-table-thead>tr>th {
+  background: #F7F7F7;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
 /* Margin Tailwind css */
 .m-0 {
   margin: 0px;

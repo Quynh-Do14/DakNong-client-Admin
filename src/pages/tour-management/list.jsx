@@ -138,6 +138,7 @@ export const ListTourManagement = () => {
                     <Table
                         dataSource={data}
                         pagination={false}
+                        className="table-common"
                     >
                         <Column
                             title={"Tên Tour"}

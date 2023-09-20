@@ -4,7 +4,7 @@ import * as apiLinks from "../../core/common/apiLinks";
 
 const api = {
   login: (data, setLoading) => request.login(`${apiLinks.API}${Endpoint.Auth.Login}`, data, setLoading),
-  upload: (data, setLoading) => request.uploadFile(`${apiLinks.API}${Endpoint.Module.Upload}`, data, setLoading),
+  upload: (data, setLoading) => request.postUploadFile(`${apiLinks.API}${Endpoint.Module.Upload}`, data, setLoading),
   /////
   getAllTour: (params, setLoading) =>
     request.get(`${apiLinks.API}${Endpoint.Module.Tour}?${params}`, setLoading),
@@ -101,6 +101,20 @@ const api = {
   },
   /////
 
-
+  /////
+  getAllNews: (params, setLoading) =>
+    request.get(`${apiLinks.API}${Endpoint.Module.News}?${params}`, setLoading),
+  getNewsById: (params, setLoading) =>
+    request.get(`${apiLinks.API}${Endpoint.Module.News}/${params.id}`, setLoading),
+  createNews: (data, callBack, setLoading) => {
+    request.post(`${apiLinks.API}${Endpoint.Module.News}`, data, callBack, setLoading)
+  },
+  updateNews: (data, callBack, setLoading) => {
+    request.put(`${apiLinks.API}${Endpoint.Module.News}/${data.id}`, data, callBack, setLoading)
+  },
+  deleteNews: (data, callBack, setLoading) => {
+    request.delete(`${apiLinks.API}${Endpoint.Module.News}/${data.id}`, data, callBack, setLoading)
+  },
+  /////
 };
 export default api;

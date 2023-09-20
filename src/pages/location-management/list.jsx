@@ -26,7 +26,7 @@ export const ListLocationManagement = () => {
 
     const onGetListLocationAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
         const response = await api.getAllLocation(
-            `${Constants.Params.searchName.trim()}=${keyWord}&${Constants.Params.limit.trim()}=${limit}&${Constants.Params.page.trim()}= ${page}`,
+            `${Constants.Params.searchName.trim()}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}=${page}&idQuanHuyen=1&idDanhMuc=1`,
             setLoading
         )
         if (response.data.diaDiems?.length > 0) {
@@ -68,7 +68,7 @@ export const ListLocationManagement = () => {
         onSearch(searchText, pageSize, lastPage).then((_) => { });
     }
 
-    let isLastPage = pagination.limit * pagination.page <= pagination.total ? false : true
+    // let isLastPage = pagination.limit * pagination.page <= pagination.total ? false : true
 
     const onPageSizeChanged = (value) => {
         setPageSize(value);
@@ -187,7 +187,7 @@ export const ListLocationManagement = () => {
                         <PaginationCommon
                             title={"Số bản ghi mỗi trang"}
                             currentPage={page}
-                            isLastPage={isLastPage}
+                            // isLastPage={isLastPage}
                             onSelect={onPageSizeChanged}
                             onFirstPage={onFirstPage}
                             onPreviousPage={onPreviousPage}

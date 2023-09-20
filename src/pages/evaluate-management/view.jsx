@@ -99,83 +99,47 @@ export const ViewEvaluateManagement = () => {
                         Xem thông tin chi tiết đánh giá
                     </div>
                     <div className='content mb-3'>
-                        <InputTextCommon
-                            label={"Người dùng"}
-                            attribute={"userId"}
-                            isRequired={false}
-                            dataAttribute={dataEvaluate.userId}
-                            setData={setDataEvaluate}
-                            disabled={true}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Số sao"}
-                            attribute={"soSao"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.soSao}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Thời gian đánh giá"}
-                            attribute={"thoiGianDanhGia"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.thoiGianDanhGia}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Nội dung"}
-                            attribute={"noiDung"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.noiDung}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Địa điểm"}
-                            attribute={"idDiaDiem"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.idDiaDiem}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Tin tức"}
-                            attribute={"idTinTuc"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.idTinTuc}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Tour"}
-                            attribute={"idTour"}
-                            isRequired={true}
-                            dataAttribute={dataEvaluate.idTour}
-                            setData={setDataEvaluate}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
+                        <Row gutter={[10, 10]}>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Số sao"}
+                                    attribute={"soSao"}
+                                    isRequired={true}
+                                    dataAttribute={dataEvaluate.soSao}
+                                    setData={setDataEvaluate}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputDateCommon
+                                    label={"Thời gian đánh giá"}
+                                    attribute={"thoiGianDanhGia"}
+                                    isRequired={true}
+                                    dataAttribute={dataEvaluate.thoiGianDanhGia}
+                                    setData={setDataEvaluate}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Nội dung"}
+                                    attribute={"noiDung"}
+                                    isRequired={true}
+                                    dataAttribute={dataEvaluate.noiDung}
+                                    setData={setDataEvaluate}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                        </Row>
                     </div>
                     <div className=''>
                         <Row justify={"center"}>

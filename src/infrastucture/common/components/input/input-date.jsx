@@ -38,7 +38,7 @@ const InputDateCommon = (props) => {
     }
     useEffect(() => {
         if (dataAttribute) {
-            setValue(dayjs  (dataAttribute) || null);
+            setValue(dayjs(dataAttribute) || null);
         }
     }, [dataAttribute]);
 
@@ -51,14 +51,13 @@ const InputDateCommon = (props) => {
 
     return (
         <Row className='mb-4 input-common'>
-            <Col className='label' xs={24} sm={10} lg={4} xl={4}>
-                <Row justify={"start"} wrap={false}>
-                    <div>{label}</div>
-                    <div className='ml-1 is-required'>{isRequired ? "*" : ""} </div>
-                </Row>
+            <Col xs={24} sm={10} lg={8} xl={6} className='title'>
+                <span>
+                    <span className='label'>{label}</span>
+                    <span className='ml-1 is-required'>{isRequired ? "*" : ""} </span>
+                </span>
             </Col>
-
-            <Col xs={24} sm={14} lg={20} xl={20}>
+            <Col xs={24} sm={14} lg={16} xl={18}>
                 <DatePicker
                     allowClear={false}
                     size="middle"

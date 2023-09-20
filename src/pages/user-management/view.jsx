@@ -49,7 +49,7 @@ export const ViewUserManagement = () => {
                 firstName: detailUser.firstName,
                 lastName: detailUser.lastName,
                 sdt: detailUser.sdt,
-
+                address: detailUser.address
             });
         };
     }, [detailUser]);
@@ -89,7 +89,8 @@ export const ViewUserManagement = () => {
             )
         }
     };
-
+    console.log('dataUser',dataUser);
+    console.log('detailUser',detailUser);
     return (
         <div>
             <MainLayout breadcrumb="Quản lý người dùng" title="Xem chi tiết" redirect={`${ROUTE_PATH.USER}`}>
@@ -98,84 +99,100 @@ export const ViewUserManagement = () => {
                         Xem thông tin chi tiết người dùng
                     </div>
                     <div className='content mb-3'>
-                        <InputTextCommon
-                            label={"Tên người dùng"}
-                            attribute={"userName"}
-                            isRequired={false}
-                            dataAttribute={dataUser.userName}
-                            setData={setDataUser}
-                            disabled={true}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputSelectCommon
-                            label={"Phân quyền"}
-                            attribute={"role"}
-                            isRequired={true}
-                            dataAttribute={dataUser.role}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                            listDataOfItem={Constants.StatusUser.List}
-                        />
-                        <InputTextCommon
-                            label={"Email"}
-                            attribute={"email"}
-                            isRequired={true}
-                            dataAttribute={dataUser.email}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Họ"}
-                            attribute={"lastName"}
-                            isRequired={true}
-                            dataAttribute={dataUser.lastName}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Tên"}
-                            attribute={"firstName"}
-                            isRequired={true}
-                            dataAttribute={dataUser.firstName}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Số điện thoại"}
-                            attribute={"sdt"}
-                            isRequired={true}
-                            dataAttribute={dataUser.sdt}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Địa chỉ"}
-                            attribute={"address"}
-                            isRequired={true}
-                            dataAttribute={dataUser.address}
-                            setData={setDataUser}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
+                        <Row gutter={[10, 10]}>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Tên người dùng"}
+                                    attribute={"userName"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.userName}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputSelectCommon
+                                    label={"Phân quyền"}
+                                    attribute={"role"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.role}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                    listDataOfItem={Constants.StatusUser.List}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Email"}
+                                    attribute={"email"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.email}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Họ"}
+                                    attribute={"lastName"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.lastName}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Tên"}
+                                    attribute={"firstName"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.firstName}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Số điện thoại"}
+                                    attribute={"sdt"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.sdt}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Địa chỉ"}
+                                    attribute={"address"}
+                                    isRequired={true}
+                                    dataAttribute={dataUser.address}
+                                    setData={setDataUser}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                        </Row>
                     </div>
                     <div className=''>
                         <Row justify={"center"}>

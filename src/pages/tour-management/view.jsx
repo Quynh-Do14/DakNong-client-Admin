@@ -8,6 +8,7 @@ import InputTextCommon from '../../infrastucture/common/components/input/input-t
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
+import InputNumberCommon from '../../infrastucture/common/components/input/input-number';
 
 export const ViewTourManagement = () => {
     const [validate, setValidate] = useState({});
@@ -103,84 +104,99 @@ export const ViewTourManagement = () => {
                         Xem thông tin chi tiết người dùng
                     </div>
                     <div className='content mb-3'>
-                        <InputTextCommon
-                            label={"Tên tour"}
-                            attribute={"tenTour"}
-                            isRequired={true}
-                            dataAttribute={dataTour.tenTour}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Chi phí"}
-                            attribute={"chiPhi"}
-                            isRequired={true}
-                            dataAttribute={dataTour.chiPhi}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Ngày bắt đầu"}
-                            attribute={"ngayBatDau"}
-                            isRequired={true}
-                            dataAttribute={dataTour.ngayBatDau}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputDateCommon
-                            label={"Ngày kết thúc"}
-                            attribute={"ngayKetThuc"}
-                            isRequired={true}
-                            dataAttribute={dataTour.ngayKetThuc}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-
-                        <InputTextCommon
-                            label={"Khoảng cách"}
-                            attribute={"khoangCach"}
-                            isRequired={true}
-                            dataAttribute={dataTour.khoangCach}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Số địa điểm"}
-                            attribute={"soDiaDiem"}
-                            isRequired={true}
-                            dataAttribute={dataTour.soDiaDiem}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                        <InputTextCommon
-                            label={"Số ngày"}
-                            attribute={"soNgay"}
-                            isRequired={true}
-                            dataAttribute={dataTour.soNgay}
-                            setData={setDataTour}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
+                        <Row gutter={[10, 10]}>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Tên tour"}
+                                    attribute={"tenTour"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.tenTour}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"Chi phí"}
+                                    attribute={"chiPhi"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.chiPhi}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputDateCommon
+                                    label={"Ngày bắt đầu"}
+                                    attribute={"ngayBatDau"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.ngayBatDau}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputDateCommon
+                                    label={"Ngày kết thúc"}
+                                    attribute={"ngayKetThuc"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.ngayKetThuc}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputNumberCommon
+                                    label={"Khoảng cách"}
+                                    attribute={"khoangCach"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.khoangCach}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputNumberCommon
+                                    label={"Số địa điểm"}
+                                    attribute={"soDiaDiem"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.soDiaDiem}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputNumberCommon
+                                    label={"Số ngày"}
+                                    attribute={"soNgay"}
+                                    isRequired={true}
+                                    dataAttribute={dataTour.soNgay}
+                                    setData={setDataTour}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                        </Row>
                     </div>
                     <div className=''>
                         <Row justify={"center"}>

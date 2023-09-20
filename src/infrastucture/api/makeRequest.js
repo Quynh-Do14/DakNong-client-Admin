@@ -69,6 +69,7 @@ const request = {
       return result.json();
     } else {
       setLoading(false)
+      FailMessage("Upload dữ liệu thất bại", "Dữ liệu đã được Upload thất bại");
       return {
         status: false,
         data: {},

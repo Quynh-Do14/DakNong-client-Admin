@@ -17,12 +17,12 @@ const DialogConfirmCommon = (props) => {
                 <div className='modal'>
                     <div className='mb-6 title'>{title}</div>
                     <div className='mb-8 message'>{message}</div>
-                    <Row justify={"space-evenly"}>
+                    <Row justify={"center"}>
                         <Col>
-                            <Button className={"btn-Cancel"} key="f-2" onClick={() => handleCancel()}>{titleCancel}</Button>
+                            <Button className={"btn-Cancel mx-2"} type='text' key="f-2" onClick={() => handleCancel()}>{titleCancel}</Button>
                         </Col>
                         <Col>
-                            <Button disabled={isLoading} className={"btn-ok"} key="f-1" onClick={() => handleOk()}>{titleOk}</Button>
+                            <Button disabled={isLoading} type='text' className={"btn-ok mx-2"} key="f-1" onClick={() => handleOk()}>{titleOk}</Button>
                         </Col>
                     </Row>
                 </div>

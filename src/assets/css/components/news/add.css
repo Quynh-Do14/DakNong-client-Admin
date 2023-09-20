@@ -1,0 +1,44 @@
+.add-news-pg .title {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 120% */
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+
+.add-news-pg .content {
+    border-top: solid 1px #D9D9D9;
+
+}
+
+.add-news-pg .btn-back {
+    color: rgba(0, 0, 0, 0.66);
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+}
+
+.add-news-pg .btn-update {
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+    background: #04AD8F;
+    color: #FFF;
+}
+
+.add-news-pg .btn-cancel {
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+    background: rgba(243, 178, 79, 0.50);
+    color: #FFF;
+}
+.add-news-pg .select-file .label {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    text-align: left;
+}

@@ -3,26 +3,27 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/tour/add.css';
+import '../../assets/css/components/news/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Upload } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
-import InputNumberCommon from '../../infrastucture/common/components/input/input-number';
+import { UploadOutlined } from '@ant-design/icons';
+import InputTextAreaCommon from '../../infrastucture/common/components/input/input-text-area';
 
-export const AddTourManagement = () => {
+export const AddNewsManagement = () => {
     const [validate, setValidate] = useState({});
     const [loading, setLoading] = useState(false);
     const [submittedTime, setSubmittedTime] = useState();
-
+    const [imageName, setImageName] = useState("")
     const [_data, _setData] = useState({});
-    const dataTour = _data;
+    const dataNews = _data;
 
-    const setDataTour = (data) => {
-        Object.assign(dataTour, { ...data });
-        _setData({ ...dataTour });
+    const setDataNews = (data) => {
+        Object.assign(dataNews, { ...data });
+        _setData({ ...dataNews });
     };
 
     const isValidData = () => {
@@ -42,45 +43,67 @@ export const AddTourManagement = () => {
     const navigate = useNavigate();
 
     const onBack = () => {
-        navigate(ROUTE_PATH.TOUR)
+        navigate(ROUTE_PATH.NEWS)
     };
 
-    const onCreateTour = async () => {
+    const onCreateNews = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            await api.createTour({
-                tenTour: dataTour.tenTour,
+            await api.createNews({
+                tieuDe: dataNews.tieuDe,
+                tieuDeCon: dataNews.tieuDeCon,
+                moTaNgan: dataNews.moTaNgan,
+                firstName: dataNews.firstName,
+                chiTiet: dataNews.chiTiet,
+                ngayDang: dataNews.ngayDang,
+                userId: dataNews.userId,
+                lat: 1,
+                long: 1,
+                geom: "POINT(-122.360 47.656)",
+                soSaoTrungBinh: dataNews.soSaoTrungBinh,
+                luotXem: dataNews.luotXem,
+                diaChi: dataNews.diaChi,
                 status: 1,
-                chiPhi: dataTour.chiPhi,
-                ngayBatDau: dataTour.ngayBatDau,
-                ngayKetThuc: dataTour.ngayKetThuc,
-                khoangCach: parseInt(dataTour.khoangCach),
-                soDiaDiem: parseInt(dataTour.soDiaDiem),
-                soNgay: parseInt(dataTour.soNgay),
-                luotXem: 1,
-                userId: 1
+                hinhAnh: imageName
             },
                 onBack,
                 setLoading
             )
         }
     };
+
+
+    const handleUpload = async () => {
+        var formdata = new FormData();
+        formdata.append(
+            "file",
+            document.getElementById("file").files[0],
+            document.getElementById('file').value
+        );
+        formdata.append('status', 1);
+        formdata.append('idTintuc', 1);
+        formdata.append('idDiaDiem', 1);
+        let request = await api.upload(formdata,
+            setLoading
+        )
+        setImageName(request.data.link)
+    };
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý tour" title="Thêm mới" redirect={`${ROUTE_PATH.TOUR}`}>
-                <div className='add-tour-pg'>
+            <MainLayout breadcrumb="Quản lý tin tức" title="Thêm mới" redirect={`${ROUTE_PATH.NEWS}`}>
+                <div className='add-news-pg'>
                     <div className='title py-3'>
-                        Thêm mới tour
+                        Thêm mới tin tức
                     </div>
                     <div className='content mb-3'>
                         <Row gutter={[10, 10]}>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputTextCommon
-                                    label={"Tên tour"}
-                                    attribute={"tenTour"}
+                                    label={"Tiêu đề"}
+                                    attribute={"tieuDe"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.tenTour}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.tieuDe}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -89,11 +112,37 @@ export const AddTourManagement = () => {
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputTextCommon
-                                    label={"Chi phí"}
-                                    attribute={"chiPhi"}
+                                    label={"Tiêu đề con"}
+                                    attribute={"tieuDeCon"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.chiPhi}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.tieuDeCon}
+                                    setData={setDataNews}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextAreaCommon
+                                    label={"Mô tả ngắn"}
+                                    attribute={"moTaNgan"}
+                                    isRequired={true}
+                                    dataAttribute={dataNews.moTaNgan}
+                                    setData={setDataNews}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextAreaCommon
+                                    label={"Chi tiết"}
+                                    attribute={"chiTiet"}
+                                    isRequired={true}
+                                    dataAttribute={dataNews.chiTiet}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -102,11 +151,11 @@ export const AddTourManagement = () => {
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputDateCommon
-                                    label={"Ngày bắt đầu"}
-                                    attribute={"ngayBatDau"}
+                                    label={"Ngày đăng"}
+                                    attribute={"ngayDang"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.ngayBatDau}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.ngayDang}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -114,12 +163,12 @@ export const AddTourManagement = () => {
                                 />
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputDateCommon
-                                    label={"Ngày kết thúc"}
-                                    attribute={"ngayKetThuc"}
+                                <InputTextCommon
+                                    label={"Số sao trung bình"}
+                                    attribute={"soSaoTrungBinh"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.ngayKetThuc}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.soSaoTrungBinh}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -127,12 +176,12 @@ export const AddTourManagement = () => {
                                 />
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputNumberCommon
-                                    label={"Khoảng cách"}
-                                    attribute={"khoangCach"}
+                                <InputTextCommon
+                                    label={"Địa chỉ"}
+                                    attribute={"diaChi"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.khoangCach}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.diaChi}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -140,25 +189,12 @@ export const AddTourManagement = () => {
                                 />
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputNumberCommon
-                                    label={"Số địa điểm"}
-                                    attribute={"soDiaDiem"}
+                                <InputTextCommon
+                                    label={"Lượt xem"}
+                                    attribute={"luotXem"}
                                     isRequired={true}
-                                    dataAttribute={dataTour.soDiaDiem}
-                                    setData={setDataTour}
-                                    disabled={false}
-                                    validate={validate}
-                                    setValidate={setValidate}
-                                    submittedTime={submittedTime}
-                                />
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputNumberCommon
-                                    label={"Số ngày"}
-                                    attribute={"soNgay"}
-                                    isRequired={true}
-                                    dataAttribute={dataTour.soNgay}
-                                    setData={setDataTour}
+                                    dataAttribute={dataNews.luotXem}
+                                    setData={setDataNews}
                                     disabled={false}
                                     validate={validate}
                                     setValidate={setValidate}
@@ -173,7 +209,7 @@ export const AddTourManagement = () => {
                                 <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
                             </Col>
                             <Col className='mx-1'>
-                                <Button onClick={onCreateTour} type='primary' className='btn-update'>Thêm mới</Button>
+                                <Button onClick={onCreateNews} type='primary' className='btn-update'>Thêm mới</Button>
                             </Col>
                         </Row>
                     </div>

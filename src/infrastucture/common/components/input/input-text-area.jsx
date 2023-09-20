@@ -5,7 +5,8 @@ import { validateFields } from '../../../utils/helper';
 import { MessageError } from '../controls/MessageError';
 import '../../../../assets/css/common/input.css'
 import { validateEmail, validatePhoneNumber } from '../../../utils/validate';
-const InputTextCommon = (props) => {
+const { TextArea } = Input
+const InputTextAreaCommon = (props) => {
     const {
         label,
         attribute,
@@ -64,7 +65,7 @@ const InputTextCommon = (props) => {
                     </span>
                 </Col>
                 <Col xs={24} sm={14} lg={14} xl={18}>
-                    <Input
+                    <TextArea
                         size={size ? size : "middle"}
                         value={value ? value : ""}
                         onChange={onChange}
@@ -78,4 +79,4 @@ const InputTextCommon = (props) => {
         </div>
     )
 };
-export default InputTextCommon;
+export default InputTextAreaCommon;
