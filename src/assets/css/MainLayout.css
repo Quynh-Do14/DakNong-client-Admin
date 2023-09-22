@@ -1,10 +1,33 @@
-.btn-collap {
+.main-layout {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    flex-direction: row;
+    font-family: 'Mulish', sans-serif;
+    overflow: hidden;
+    background: rgba(217, 217, 217, 0.49);
+}
+
+.main-layout .header-layout {
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.25) !important;
+    background: #FFF;
+}
+
+.main-layout .content-layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-layout .content-layout .btn-collap {
     background: #239F89;
     color: #fff;
     font-size: 16px;
     width: 50px;
     height: 30px;
     border-radius: 5px;
+    border: solid 2px #fff;
 }
 
 .menu-title {
@@ -25,35 +48,71 @@
     justify-content: center;
     border-bottom: solid 1px #fff;
 }
+
 /* .container-menu {
     width: 240px;
 } */
 
-.layout .content {
+.main-layout .content-layout .content {
     background: #e9e9e90d;
     padding: 20px 30px;
 }
 
-.layout .content .content-container {
+.main-layout .content-layout .content .content-container {
     padding: 20px 30px;
     background: #fff;
 }
 
-.layout .logout {
+.main-layout .content-layout .logout {
     color: #7B7676;
     font-weight: 500;
     font-size: 14px;
 }
 
-.layout .logout:hover {
+.main-layout .content-layout .logout:hover {
     color: #ec2d2d;
 }
 
-.layout .avatar {
+.main-layout .content-layout .avatar {
     max-width: 42px;
     max-height: 42px;
     border-radius: 50%;
     border: 2px solid #94c0d4;
+}
+
+.main-layout .content-layout .header-main-layout {
+    border-top: 1px hsl(0, 0%, 91%) solid;
+    border-bottom: 1px hsl(0, 0%, 91%) solid;
+    background: #FFF;
+}
+
+.main-layout .content-layout .header-main-layout .title {
+    text-align: left;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 88.889% */
+    letter-spacing: 0.1px;
+    color: #7B7676
+}
+
+.main-layout .content-layout .header-main-layout .breadcumb {
+    color: #7B7676;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+}
+
+.main-layout .content-layout .header-main-layout .breadcumb-title {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.1px;
 }
 
 /* ///// */

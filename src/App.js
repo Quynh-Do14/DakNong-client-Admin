@@ -24,48 +24,62 @@ import { ListLocationManagement } from "./pages/location-management/list";
 import { ListNewsManagement } from "./pages/news-management/list";
 import { AddNewsManagement } from "./pages/news-management/add";
 import { ViewNewsManagement } from "./pages/news-management/view";
+import { ViewLocationManagement } from "./pages/location-management/view";
+import { AddLocationManagement } from "./pages/location-management/add";
+import { RecoilRoot } from "recoil";
+import RecoilOutsideComponent from "./infrastucture/libs/recoil-outside/recoil.service";
+
+const RouteRoot = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* <Route path={ROUTE_PATH.LOGIN} element={< PrivateRoute component={LoginPage} />} /> */}
+        <Route path={ROUTE_PATH.LOGIN} element={< LoginPage />} />
+        <Route path={ROUTE_PATH.REGISTER} element={<RegisterPage />} />
+        <Route path={ROUTE_PATH.MAINLAYOUT} element={<PrivateRoute component={MainLayout} />} />
+
+        <Route path={ROUTE_PATH.USER} element={<PrivateRoute component={ListUserManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_USER} element={<PrivateRoute component={ViewUserManagement} />} />
+        <Route path={ROUTE_PATH.ADD_USER} element={<PrivateRoute component={AddUserManagement} />} />
+
+        <Route path={ROUTE_PATH.CATEGORY} element={<PrivateRoute component={ListCategoryManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_CATEGORY} element={<PrivateRoute component={ViewCategoryManagement} />} />
+        <Route path={ROUTE_PATH.ADD_CATEGORY} element={<PrivateRoute component={AddCategoryManagement} />} />
+
+        <Route path={ROUTE_PATH.TOUR} element={<PrivateRoute component={ListTourManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_TOUR} element={<PrivateRoute component={ViewTourManagement} />} />
+        <Route path={ROUTE_PATH.ADD_TOUR} element={<PrivateRoute component={AddTourManagement} />} />
+
+        <Route path={ROUTE_PATH.DISTRICT} element={<PrivateRoute component={ListDistrictManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_DISTRICT} element={<PrivateRoute component={ViewDistrictManagement} />} />
+        <Route path={ROUTE_PATH.ADD_DISTRICT} element={<PrivateRoute component={AddDistrictManagement} />} />
+
+        <Route path={ROUTE_PATH.NEWS} element={<PrivateRoute component={ListNewsManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_NEWS} element={<PrivateRoute component={ViewNewsManagement} />} />
+        <Route path={ROUTE_PATH.ADD_NEWS} element={<PrivateRoute component={AddNewsManagement} />} />
+
+        <Route path={ROUTE_PATH.LOCATION} element={<PrivateRoute component={ListLocationManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_LOCATION} element={<PrivateRoute component={ViewLocationManagement} />} />
+        <Route path={ROUTE_PATH.ADD_LOCATION} element={<PrivateRoute component={AddLocationManagement} />} />
+
+        <Route path={ROUTE_PATH.EVALUATE} element={<PrivateRoute component={ListEvaluateManagement} />} />
+        <Route path={ROUTE_PATH.VIEW_EVALUATE} element={<PrivateRoute component={ViewEvaluateManagement} />} />
+        {/* <Route path={ROUTE_PATH.ADD_EVALUATE} element={<PrivateRoute component={AddEvaluateManagement} />} /> */}
+
+
+      </Routes>
+    </BrowserRouter>
+  )
+};
+
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path={ROUTE_PATH.LOGIN} element={< PrivateRoute component={LoginPage} />} /> */}
-          <Route path={ROUTE_PATH.LOGIN} element={< LoginPage />} />
-          <Route path={ROUTE_PATH.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTE_PATH.MAINLAYOUT} element={<PrivateRoute component={MainLayout} />} />
-
-          <Route path={ROUTE_PATH.USER} element={<PrivateRoute component={ListUserManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_USER} element={<PrivateRoute component={ViewUserManagement} />} />
-          <Route path={ROUTE_PATH.ADD_USER} element={<PrivateRoute component={AddUserManagement} />} />
-
-          <Route path={ROUTE_PATH.CATEGORY} element={<PrivateRoute component={ListCategoryManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_CATEGORY} element={<PrivateRoute component={ViewCategoryManagement} />} />
-          <Route path={ROUTE_PATH.ADD_CATEGORY} element={<PrivateRoute component={AddCategoryManagement} />} />
-
-          <Route path={ROUTE_PATH.TOUR} element={<PrivateRoute component={ListTourManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_TOUR} element={<PrivateRoute component={ViewTourManagement} />} />
-          <Route path={ROUTE_PATH.ADD_TOUR} element={<PrivateRoute component={AddTourManagement} />} />
-
-          <Route path={ROUTE_PATH.DISTRICT} element={<PrivateRoute component={ListDistrictManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_DISTRICT} element={<PrivateRoute component={ViewDistrictManagement} />} />
-          <Route path={ROUTE_PATH.ADD_DISTRICT} element={<PrivateRoute component={AddDistrictManagement} />} />
-
-          <Route path={ROUTE_PATH.NEWS} element={<PrivateRoute component={ListNewsManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_NEWS} element={<PrivateRoute component={ViewNewsManagement} />} />
-          <Route path={ROUTE_PATH.ADD_NEWS} element={<PrivateRoute component={AddNewsManagement} />} />
-
-          <Route path={ROUTE_PATH.LOCATION} element={<PrivateRoute component={ListLocationManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_LOCATION} element={<PrivateRoute component={ViewTourManagement} />} />
-          <Route path={ROUTE_PATH.ADD_LOCATION} element={<PrivateRoute component={AddTourManagement} />} />
-
-          <Route path={ROUTE_PATH.EVALUATE} element={<PrivateRoute component={ListEvaluateManagement} />} />
-          <Route path={ROUTE_PATH.VIEW_EVALUATE} element={<PrivateRoute component={ViewEvaluateManagement} />} />
-          {/* <Route path={ROUTE_PATH.ADD_EVALUATE} element={<PrivateRoute component={AddEvaluateManagement} />} /> */}
-
-
-        </Routes>
-      </BrowserRouter>
+      <RecoilRoot>
+        <RecoilOutsideComponent />
+        <RouteRoot />
+      </RecoilRoot>
     </div>
   );
 }

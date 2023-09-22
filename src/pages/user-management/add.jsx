@@ -3,12 +3,12 @@ import { MainLayout } from '../../infrastucture/common/components/layout/MainLay
 import { ROUTE_PATH } from '../../core/common/appRouter'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../infrastucture/api';
-import '../../assets/css/components/user/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 export const AddUserManagement = () => {
     const [validate, setValidate] = useState({});
@@ -64,13 +64,22 @@ export const AddUserManagement = () => {
     };
     return (
         <div>
-            <MainLayout breadcrumb="Quản lý người dùng" title="Thêm mới" redirect={`${ROUTE_PATH.USER}`}>
-                <div className='add-user-pg'>
-                    <div className='title py-3'>
+            <MainLayout>
+                <div className='flex flex-col'>
+                    <HeaderMainLayout
+                        breadcrumb="Quản lý người dùng"
+                        title="Thêm mới"
+                        redirect={`${ROUTE_PATH.USER}`}
+                    />
+                </div>
+                <div className='main-page flex flex-col pt-2'>
+                    <div className='bg-white px-8 py-3 title-page'>
                         Thêm mới người dùng
                     </div>
-                    <div className='content mb-3'>
-                        <Row gutter={[10, 10]}>
+                </div>
+                <div className='main-page h-100 flex-1 auto bg-white px-8 py-4'>
+                    <div className='bg-white'>
+                        <Row gutter={[20, 20]}>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputTextCommon
                                     label={"Tên người dùng"}
@@ -165,19 +174,20 @@ export const AddUserManagement = () => {
                             </Col>
                         </Row>
                     </div>
-                    <div className=''>
-                        <Row justify={"center"}>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onCreateUser} type='primary' className='btn-update'>Thêm mới</Button>
-                            </Col>
-                        </Row>
-                    </div>
                 </div>
-            </MainLayout>
-            <FullPageLoading isLoading={loading} />
-        </div>
+                <div className='container-btn main-page bg-white p-4 flex flex-col '>
+                    <Row justify={"center"}>
+                        <Col className='mx-1'>
+                            <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
+                        </Col>
+                        <Col className='mx-1'>
+                            <Button onClick={onCreateUser} type='primary' className='btn-update'>Thêm mới</Button>
+                        </Col>
+                    </Row>
+                </div >
+                <FullPageLoading isLoading={loading} />
+
+            </MainLayout >
+        </div >
     )
 }

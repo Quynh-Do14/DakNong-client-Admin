@@ -48,6 +48,8 @@ export default class Constants {
         static limit = "limit";
         static page = "page";
         static searchName = "searchName";
+        static idQuanHuyen = "idQuanHuyen";
+        static idDanhMuc = "idDanhMuc";
     }
 
     static PaginationConfigs = class {

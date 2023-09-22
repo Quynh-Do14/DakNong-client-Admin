@@ -7,6 +7,7 @@ import '../../assets/css/components/category/view.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 export const ViewCategoryManagement = () => {
     const [validate, setValidate] = useState({});
@@ -78,41 +79,45 @@ export const ViewCategoryManagement = () => {
     };
 
     return (
-        <div>
-            <MainLayout breadcrumb="Quản lý danh mục" title="Xem chi tiết" redirect={`${ROUTE_PATH.CATEGORY}`}>
-                <div className='view-category-pg'>
-                    <div className='title py-3'>
-                        Xem thông tin chi tiết danh mục
-                    </div>
-                    <div className='content mb-3'>
-                        <InputTextCommon
-                            label={"Tên danh mục"}
-                            attribute={"tenDanhMuc"}
-                            isRequired={true}
-                            dataAttribute={dataCategory.tenDanhMuc}
-                            setData={setDataCategory}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                    </div>
-                    <div className=''>
-                        <Row justify={"center"}>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onUpdateCategory} type='primary' className='btn-update'>Cập nhật</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='primary' className='btn-cancel'>Hủy bỏ</Button>
-                            </Col>
-                        </Row>
-                    </div>
+        <MainLayout>
+            <div className='flex flex-col'>
+                <HeaderMainLayout
+                    breadcrumb="Quản lý danh mục"
+                    title="Xem chi tiết"
+                    redirect={`${ROUTE_PATH.CATEGORY}`}
+                />
+            </div>
+            <div className='main-page flex flex-col pt-2'>
+                <div className='bg-white px-8 py-3 title-page'>
+                    Xem thông tin chi tiết danh mục
                 </div>
-            </MainLayout >
+            </div>
+            <div className='main-page h-100 flex-1 auto bg-white px-8 py-4'>
+                <div className='bg-white'>
+                    <InputTextCommon
+                        label={"Tên danh mục"}
+                        attribute={"tenDanhMuc"}
+                        isRequired={true}
+                        dataAttribute={dataCategory.tenDanhMuc}
+                        setData={setDataCategory}
+                        disabled={false}
+                        validate={validate}
+                        setValidate={setValidate}
+                        submittedTime={submittedTime}
+                    />
+                </div>
+                <div className='container-btn main-page bg-white p-4 flex flex-col '>
+                    <Row justify={"center"}>
+                        <Col className='mx-1'>
+                            <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
+                        </Col>
+                        <Col className='mx-1'>
+                            <Button onClick={onUpdateCategory} type='primary' className='btn-update'>Thêm mới</Button>
+                        </Col>
+                    </Row>
+                </div >
+            </div>
             <FullPageLoading isLoading={loading} />
-        </div >
+        </MainLayout>
     )
 }

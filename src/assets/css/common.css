@@ -1,0 +1,86 @@
+.main-layout .content-layout .title {
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    color: rgba(0, 0, 0, 0.90);
+    text-align: left;
+}
+
+.main-layout .content-layout .btn-add {
+    background: #04AD8F;
+    color: #FFF;
+    font-style: normal;
+    font-weight: 400;
+    border-radius: 3px;
+    letter-spacing: 0.15px;
+    border: none;
+    height: 34px;
+}
+
+.main-layout .content-layout .btn-page {
+    background: #04AD8F;
+    color: #FFF;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    border-radius: 0px;
+    letter-spacing: 0.15px;
+    border: none;
+}
+
+.main-layout .content-layout .btn-search {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: rgba(33, 119, 182, 0.90);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    color: #FFF;
+    padding: 4px 10px;
+}
+
+.main-layout .content-layout {}
+
+.main-layout .content-layout .title-page {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 120% */
+    letter-spacing: 0.18px;
+    text-align: left;
+    border-bottom: solid 1px #D9D9D9;
+}
+
+.main-layout .content-layout .content {
+    /* border-top: solid 1px #D9D9D9; */
+}
+
+.main-layout .content-layout .container-btn {
+    border-top: solid 1px #D9D9D9;
+}
+
+.main-layout .content-layout .container-btn .btn-back {
+    color: rgba(0, 0, 0, 0.66);
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+}
+
+.main-layout .content-layout .container-btn .btn-update {
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+    background: #04AD8F;
+    color: #FFF;
+}
+
+.main-layout .content-layout .btn-cancel {
+    border-radius: 5px;
+    border: 1px solid #D9D9D9;
+    background: rgba(243, 178, 79, 0.50);
+    color: #FFF;
+}

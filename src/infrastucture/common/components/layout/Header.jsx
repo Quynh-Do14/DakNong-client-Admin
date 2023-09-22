@@ -1,6 +1,6 @@
 import { Breadcrumb } from 'antd';
 import React from 'react'
-import "../../../../assets/css/HeaderMainLayout.css";
+import "../../../../assets/css/MainLayout.css"
 import { useNavigate } from 'react-router-dom';
 export const HeaderMainLayout = (props) => {
   const { title, breadcrumb, redirect } = props;
@@ -10,7 +10,7 @@ export const HeaderMainLayout = (props) => {
   }
   return (
     <div>
-      <div className='header-main-layout bg-white w-100'>
+      <div className='header-main-layout bg-white p-4'>
         <div className='title py-4'>{title}</div>
         <Breadcrumb>
           <Breadcrumb.Item onClick={onNavigate} className='breadcumb pointer'>{breadcrumb}</Breadcrumb.Item>

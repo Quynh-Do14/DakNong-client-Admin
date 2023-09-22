@@ -78,41 +78,45 @@ export const ViewDistrictManagement = () => {
     };
 
     return (
-        <div>
-            <MainLayout breadcrumb="Quản lý quận huyện" title="Xem chi tiết" redirect={`${ROUTE_PATH.DISTRICT}`}>
-                <div className='view-district-pg'>
-                    <div className='title py-3'>
-                        Xem thông tin chi tiết quận huyện
-                    </div>
-                    <div className='content mb-3'>
-                        <InputTextCommon
-                            label={"Tên quận huyện"}
-                            attribute={"tenQuanHuyen"}
-                            isRequired={true}
-                            dataAttribute={dataDistrict.tenQuanHuyen}
-                            setData={setDataDistrict}
-                            disabled={false}
-                            validate={validate}
-                            setValidate={setValidate}
-                            submittedTime={submittedTime}
-                        />
-                    </div>
-                    <div className=''>
-                        <Row justify={"center"}>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onUpdateDistrict} type='primary' className='btn-update'>Cập nhật</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='primary' className='btn-cancel'>Hủy bỏ</Button>
-                            </Col>
-                        </Row>
-                    </div>
+        <MainLayout>
+            <div className='flex flex-col'>
+                <HeaderMainLayout
+                    breadcrumb="Quản lý quận huyện"
+                    title="Xem chi tiết"
+                    redirect={`${ROUTE_PATH.DISTRICT}`}
+                />
+            </div>
+            <div className='main-page flex flex-col pt-2'>
+                <div className='bg-white px-8 py-3 title-page'>
+                    Xem thông tin chi tiết quận huyện
                 </div>
-            </MainLayout >
+            </div>
+            <div className='main-page h-100 flex-1 auto bg-white px-8 py-4'>
+                <div className='bg-white'>
+                    <InputTextCommon
+                        label={"Tên quận huyện"}
+                        attribute={"tenQuanHuyen"}
+                        isRequired={true}
+                        dataAttribute={dataCategory.tenQuanHuyen}
+                        setData={setDataCategory}
+                        disabled={false}
+                        validate={validate}
+                        setValidate={setValidate}
+                        submittedTime={submittedTime}
+                    />
+                </div>
+                <div className='container-btn main-page bg-white p-4 flex flex-col '>
+                    <Row justify={"center"}>
+                        <Col className='mx-1'>
+                            <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
+                        </Col>
+                        <Col className='mx-1'>
+                            <Button onClick={onUpdateDistrict} type='primary' className='btn-update'>Thêm mới</Button>
+                        </Col>
+                    </Row>
+                </div >
+            </div>
             <FullPageLoading isLoading={loading} />
-        </div >
+        </MainLayout>
     )
 }

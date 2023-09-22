@@ -41,13 +41,19 @@ export const convertDate = (date) => {
     if (date) {
         let dateFormat = new Date(date);
         return moment(dateFormat).format("DD/MM/YYYY hh:mm:ss");
-    } return null
+    } return null;
 
 };
 export const convertDateOnly = (date) => {
     if (date) {
         let dateFormat = new Date(date);
         return moment(dateFormat).format("DD/MM/YYYY");
-    } return null
+    } return null;
+};
 
+export const convertTimeOnly = (date) => {
+    if (date) {
+        let dateFormat = new Date(date);
+        return moment(dateFormat).format("hh:mm");
+    } return null;
 };

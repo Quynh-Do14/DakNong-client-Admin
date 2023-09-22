@@ -92,71 +92,75 @@ export const ViewEvaluateManagement = () => {
     };
 
     return (
-        <div>
-            <MainLayout breadcrumb="Quản lý đánh giá" title="Xem chi tiết" redirect={`${ROUTE_PATH.EVALUATE}`}>
-                <div className='view-evaluate-pg'>
-                    <div className='title py-3'>
-                        Xem thông tin chi tiết đánh giá
-                    </div>
-                    <div className='content mb-3'>
-                        <Row gutter={[10, 10]}>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputTextCommon
-                                    label={"Số sao"}
-                                    attribute={"soSao"}
-                                    isRequired={true}
-                                    dataAttribute={dataEvaluate.soSao}
-                                    setData={setDataEvaluate}
-                                    disabled={false}
-                                    validate={validate}
-                                    setValidate={setValidate}
-                                    submittedTime={submittedTime}
-                                />
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputDateCommon
-                                    label={"Thời gian đánh giá"}
-                                    attribute={"thoiGianDanhGia"}
-                                    isRequired={true}
-                                    dataAttribute={dataEvaluate.thoiGianDanhGia}
-                                    setData={setDataEvaluate}
-                                    disabled={false}
-                                    validate={validate}
-                                    setValidate={setValidate}
-                                    submittedTime={submittedTime}
-                                />
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputTextCommon
-                                    label={"Nội dung"}
-                                    attribute={"noiDung"}
-                                    isRequired={true}
-                                    dataAttribute={dataEvaluate.noiDung}
-                                    setData={setDataEvaluate}
-                                    disabled={false}
-                                    validate={validate}
-                                    setValidate={setValidate}
-                                    submittedTime={submittedTime}
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className=''>
-                        <Row justify={"center"}>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onUpdateEvaluate} type='primary' className='btn-update'>Cập nhật</Button>
-                            </Col>
-                            <Col className='mx-1'>
-                                <Button onClick={onBack} type='primary' className='btn-cancel'>Hủy bỏ</Button>
-                            </Col>
-                        </Row>
-                    </div>
+        <MainLayout>
+            <div className='flex flex-col'>
+                <HeaderMainLayout
+                    breadcrumb="Quản lý tour"
+                    title="Xem chi tiết"
+                    redirect={`${ROUTE_PATH.EVALUATE}`}
+                />
+            </div>
+            <div className='main-page flex flex-col pt-2'>
+                <div className='bg-white px-8 py-3 title-page'>
+                    Xem thông tin chi tiết đánh giá
                 </div>
-            </MainLayout >
+            </div>
+            <div className='main-page h-100 flex-1 auto bg-white px-8 py-4'>
+                <div className='bg-white'>
+                    <Row gutter={[10, 10]}>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                            <InputTextCommon
+                                label={"Số sao"}
+                                attribute={"soSao"}
+                                isRequired={true}
+                                dataAttribute={dataEvaluate.soSao}
+                                setData={setDataEvaluate}
+                                disabled={false}
+                                validate={validate}
+                                setValidate={setValidate}
+                                submittedTime={submittedTime}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                            <InputDateCommon
+                                label={"Thời gian đánh giá"}
+                                attribute={"thoiGianDanhGia"}
+                                isRequired={true}
+                                dataAttribute={dataEvaluate.thoiGianDanhGia}
+                                setData={setDataEvaluate}
+                                disabled={false}
+                                validate={validate}
+                                setValidate={setValidate}
+                                submittedTime={submittedTime}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                            <InputTextCommon
+                                label={"Nội dung"}
+                                attribute={"noiDung"}
+                                isRequired={true}
+                                dataAttribute={dataEvaluate.noiDung}
+                                setData={setDataEvaluate}
+                                disabled={false}
+                                validate={validate}
+                                setValidate={setValidate}
+                                submittedTime={submittedTime}
+                            />
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+            <div className='container-btn main-page bg-white p-4 flex flex-col '>
+                <Row justify={"center"}>
+                    <Col className='mx-1'>
+                        <Button onClick={onBack} type='link' className='btn-back'>Quay lại</Button>
+                    </Col>
+                    <Col className='mx-1'>
+                        <Button onClick={onUpdateEvaluate} type='primary' className='btn-update'>Thêm mới</Button>
+                    </Col>
+                </Row>
+            </div>
             <FullPageLoading isLoading={loading} />
-        </div >
+        </MainLayout >
     )
 }

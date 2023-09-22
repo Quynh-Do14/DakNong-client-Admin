@@ -17,7 +17,7 @@ export const PaginationCommon = (props) => {
     return (
         <div className='pagination'>
             <Row align={"middle"} justify={"end"}>
-                <Col xs={12} sm={5} lg={5} xl={4} className='title-page'>{title}</Col>
+                <Col xs={12} sm={5} lg={5} xl={4} className='title-pagination'>{title}</Col>
                 <Col xs={12} sm={2} lg={2} xl={2}>
                     <Select className='custom-select w-100'
                         suffixIcon={<CaretDownOutlined />}

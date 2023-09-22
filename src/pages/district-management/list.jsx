@@ -7,7 +7,6 @@ import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
@@ -24,6 +23,7 @@ export const ListDistrictManagement = () => {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
     const [idSelected, setIdSelected] = useState(null);
     const [pagination, setPagination] = useState({});
+    const [totalItem, setTotalItem] = useState();
 
     const navigate = useNavigate();
 
@@ -35,6 +35,7 @@ export const ListDistrictManagement = () => {
             setData(response.data.quanHuyens);
         }
         setPagination(response.data.pagination);
+        setTotalItem(response.data.totalItems);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
         await onGetListDistrictAsync({ keyWord: keyWord, limit: limit, page: page })
@@ -66,11 +67,13 @@ export const ListDistrictManagement = () => {
     };
 
     const onLastPage = () => {
-        let lastPage = pagination.total / pagination.limit;
+        let lastPage = Math.floor(totalItem / pagination.limit);
+        setPage(lastPage);
         onSearch(searchText, pageSize, lastPage).then((_) => { });
     }
 
-    let isLastPage = pagination.limit * pagination.page <= pagination.total ? false : true
+    let isLastPage = (pagination.limit * pagination.page) < totalItem ? false : true
+
 
     const onPageSizeChanged = (value) => {
         setPageSize(value);
@@ -113,13 +116,16 @@ export const ListDistrictManagement = () => {
         )
     };
     return (
-        <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý quận huyện">
-                <div className='district-pg'>
-                    <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách quận huyện</Col>
-
-                    </Row>
+        <MainLayout>
+            <div className='flex flex-col'>
+                <HeaderMainLayout
+                    breadcrumb="Trang chủ"
+                    title="Quản lý quận huyện"
+                    redirect={""}
+                />
+            </div>
+            <div className='main-page flex flex-col pt-2'>
+                <div className='bg-white px-4 py-3'>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
                             <Row align={"middle"}>
@@ -136,6 +142,13 @@ export const ListDistrictManagement = () => {
                             <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_DISTRICT)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
+                    <Row className='' justify={"space-between"} align={"middle"}>
+                        <Col className='title'>Danh sách quận huyện</Col>
+                    </Row>
+                </div>
+            </div>
+            <div className='main-page h-100 flex-1 auto bg-white'>
+                <div className='bg-white'>
                     <Table
                         dataSource={data}
                         pagination={false}
@@ -152,11 +165,6 @@ export const ListDistrictManagement = () => {
                             title={"Tên quận huyện"}
                             key={"tenQuanHuyen"}
                             dataIndex={"tenQuanHuyen"}
-                        />
-                        <Column
-                            title={"Trạng thái"}
-                            key={"status"}
-                            dataIndex={"status"}
                         />
                         <Column
                             title={"Thao tác"}
@@ -180,20 +188,20 @@ export const ListDistrictManagement = () => {
                             )}
                         />
                     </Table>
-                    <div className='py-4'>
-                        <PaginationCommon
-                            title={"Số bản ghi mỗi trang"}
-                            currentPage={page}
-                            isLastPage={isLastPage}
-                            onSelect={onPageSizeChanged}
-                            onFirstPage={onFirstPage}
-                            onPreviousPage={onPreviousPage}
-                            onNextPage={onNextPage}
-                            onLastPage={onLastPage}
-                        />
-                    </div>
                 </div>
-            </MainLayout>
+            </div>
+            <div className='main-page bg-white p-4 flex flex-col '>
+                <PaginationCommon
+                    title={"Số bản ghi mỗi trang"}
+                    currentPage={page}
+                    isLastPage={isLastPage}
+                    onSelect={onPageSizeChanged}
+                    onFirstPage={onFirstPage}
+                    onPreviousPage={onPreviousPage}
+                    onNextPage={onNextPage}
+                    onLastPage={onLastPage}
+                />
+            </div>
             <DialogConfirmCommon
                 message={"Bạn có muốn xóa quận huyện này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
@@ -204,6 +212,7 @@ export const ListDistrictManagement = () => {
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
-        </div >
+        </MainLayout >
+
     )
 }

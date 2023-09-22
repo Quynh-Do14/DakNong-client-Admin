@@ -1,18 +1,17 @@
 import { Button, Col, Dropdown, Input, Menu, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
-import "../../assets/css/components/user/list.css"
 import { LeftOutlined, MenuOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import api from '../../infrastucture/api';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import Constants from '../../core/common/constant';
 import { MainLayout } from '../../infrastucture/common/components/layout/MainLayout';
-import { InputSelectSearchCommon } from '../../infrastucture/common/components/input/select-search';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
 import { StatusUser } from '../../infrastucture/common/components/controls/status';
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 let timeout
 export const ListUserManagement = () => {
@@ -24,6 +23,8 @@ export const ListUserManagement = () => {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
     const [idSelected, setIdSelected] = useState(null);
     const [pagination, setPagination] = useState({});
+    const [totalItem, setTotalItem] = useState();
+
     const navigate = useNavigate();
 
     const onGetListUserAsync = async ({ keyWord = "", limit = pageSize, page = 1 }) => {
@@ -35,6 +36,7 @@ export const ListUserManagement = () => {
             setData(response.data.users);
         }
         setPagination(response.data.pagination);
+        setTotalItem(response.data.totalItems);
     }
     const onSearch = async (keyWord = "", limit = pageSize, page = 1) => {
         await onGetListUserAsync({ keyWord: keyWord, limit: limit, page: page })
@@ -66,11 +68,12 @@ export const ListUserManagement = () => {
     };
 
     const onLastPage = () => {
-        let lastPage = pagination.total / pagination.limit;
+        let lastPage = Math.floor(totalItem / pagination.limit);
+        setPage(lastPage);
         onSearch(searchText, pageSize, lastPage).then((_) => { });
     }
 
-    let isLastPage = pagination.limit * pagination.page <= pagination.total ? false : true
+    let isLastPage = (pagination.limit * pagination.page) < totalItem ? false : true
 
     const onPageSizeChanged = (value) => {
         setPageSize(value);
@@ -113,12 +116,16 @@ export const ListUserManagement = () => {
         )
     };
     return (
-        <div>
-            <MainLayout breadcrumb="Trang chủ" title="Quản lý người dùng">
-                <div className='user-pg'>
-                    <Row className='mb-3' justify={"space-between"} align={"middle"}>
-                        <Col className='title'>Danh sách người dùng</Col>
-                    </Row>
+        <MainLayout>
+            <div className='flex flex-col'>
+                <HeaderMainLayout
+                    breadcrumb="Trang chủ"
+                    title="Quản lý người dùng"
+                    redirect={""}
+                />
+            </div>
+            <div className='main-page flex flex-col pt-2'>
+                <div className='bg-white px-4 py-3'>
                     <Row className='mb-4' justify={"space-between"} align={"middle"}>
                         <Col xs={14} sm={14} lg={12}>
                             <Row align={"middle"}>
@@ -135,6 +142,13 @@ export const ListUserManagement = () => {
                             <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_USER)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
                         </Col>
                     </Row>
+                    <Row className='' justify={"space-between"} align={"middle"}>
+                        <Col className='title'>Danh sách người dùng</Col>
+                    </Row>
+                </div>
+            </div>
+            <div className='main-page h-100 flex-1 auto bg-white'>
+                <div className='bg-white'>
                     <Table
                         dataSource={data}
                         pagination={false}
@@ -155,14 +169,16 @@ export const ListUserManagement = () => {
                             }}
                         />
                         <Column
-                            title={"Họ"}
+                            title={"Họ tên"}
                             key={"lastName"}
                             dataIndex={"lastName"}
-                        />
-                        <Column
-                            title={"Tên"}
-                            key={"firstName"}
-                            dataIndex={"firstName"}
+                            render={(value, record) => {
+                                return (
+                                    <div>
+                                        {record.lastName} {record.firstName}
+                                    </div>
+                                )
+                            }}
                         />
                         <Column
                             title={"Số điện thoại"}
@@ -195,20 +211,20 @@ export const ListUserManagement = () => {
                             )}
                         />
                     </Table>
-                    <div className='py-4'>
-                        <PaginationCommon
-                            title={"Số bản ghi mỗi trang"}
-                            currentPage={page}
-                            isLastPage={isLastPage}
-                            onSelect={onPageSizeChanged}
-                            onFirstPage={onFirstPage}
-                            onPreviousPage={onPreviousPage}
-                            onNextPage={onNextPage}
-                            onLastPage={onLastPage}
-                        />
-                    </div>
                 </div>
-            </MainLayout>
+            </div>
+            <div className='main-page bg-white p-4 flex flex-col '>
+                <PaginationCommon
+                    title={"Số bản ghi mỗi trang"}
+                    currentPage={page}
+                    isLastPage={isLastPage}
+                    onSelect={onPageSizeChanged}
+                    onFirstPage={onFirstPage}
+                    onPreviousPage={onPreviousPage}
+                    onNextPage={onNextPage}
+                    onLastPage={onLastPage}
+                />
+            </div>
             <DialogConfirmCommon
                 message={"Bạn có muốn xóa người dùng này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
@@ -219,6 +235,7 @@ export const ListUserManagement = () => {
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />
-        </div >
+        </MainLayout>
+
     )
 }

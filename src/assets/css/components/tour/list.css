@@ -1,4 +1,4 @@
-.tour-pg .title {
+.layout .content-layout .title {
     font-size: 23px;
     font-style: normal;
     font-weight: 400;
@@ -9,7 +9,7 @@
     text-align: left;
 }
 
-.tour-pg .btn-add {
+.layout .content-layout .btn-add {
     background: #04AD8F;
     color: #FFF;
     font-style: normal;
@@ -20,7 +20,7 @@
     height: 43px;
 }
 
-.tour-pg .btn-page {
+.layout .content-layout .btn-page {
     background: #04AD8F;
     color: #FFF;
     font-style: normal;
@@ -31,7 +31,7 @@
     border: none;
 }
 
-.tour-pg .btn-search {
+.layout .content-layout .btn-search {
     border-radius: 1px;
     border: 1px solid #FFF;
     background: rgba(33, 119, 182, 0.90);
