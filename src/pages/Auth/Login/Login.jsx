@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import "../../../assets/css/components/Login.css";
 import { ROUTE_PATH } from '../../../core/common/appRouter';
@@ -6,9 +7,8 @@ import api from '../../../infrastucture/api';
 import { FullPageLoading } from '../../../infrastucture/common/components/controls/loading';
 import Constants from '../../../core/common/constant';
 export const LoginPage = () => {
-    const [changeState, setChangeState] = useState(false);
-    const [email, setEmail] = useState("admin@gmail.com");
-    const [password, setPassword] = useState("123456aA");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
