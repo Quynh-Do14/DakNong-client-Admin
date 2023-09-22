@@ -32,8 +32,8 @@ export const ListLocationManagement = () => {
     const dataCategory = useRecoilValue(CategoryState);
     const dataDistrict = useRecoilValue(DistrictState);
 
-    const [districtId, setDictrictId] = useState(dataDistrict[0]?.idQuanHuyen);
-    const [categoryId, setCategoryId] = useState(CategoryState[0]?.idDanhMucDiaDiem);
+    const [districtId, setDictrictId] = useState(1);
+    const [categoryId, setCategoryId] = useState(1);
     const navigate = useNavigate();
 
     const onGetListLocationAsync = async ({ keyWord = "", limit = pageSize, page = 1, idQuanHuyen = districtId, idDanhMuc = categoryId }) => {
