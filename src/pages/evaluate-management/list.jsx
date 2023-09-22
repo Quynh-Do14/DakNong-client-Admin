@@ -12,6 +12,7 @@ import { ROUTE_PATH } from '../../core/common/appRouter';
 import DialogConfirmCommon from '../../infrastucture/common/components/modal/dialogConfirm';
 import { useNavigate } from 'react-router-dom';
 import { PaginationCommon } from '../../infrastucture/common/components/controls/pagination';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 let timeout
 export const ListEvaluateManagement = () => {
@@ -240,7 +241,7 @@ export const ListEvaluateManagement = () => {
                 titleOk={"Xóa đánh giá"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
-                handleOk={onDeleteTour}
+                handleOk={onDeleteEvaluate}
                 title={"Xác nhận"}
             />
             <FullPageLoading isLoading={loading} />

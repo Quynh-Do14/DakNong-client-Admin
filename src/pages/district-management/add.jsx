@@ -7,6 +7,7 @@ import '../../assets/css/components/district/add.css';
 import InputTextCommon from '../../infrastucture/common/components/input/input-text';
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 export const AddDistrictManagement = () => {
     const [validate, setValidate] = useState({});
@@ -73,8 +74,8 @@ export const AddDistrictManagement = () => {
                         label={"Tên quận huyện"}
                         attribute={"tenQuanHuyen"}
                         isRequired={true}
-                        dataAttribute={dataCategory.tenQuanHuyen}
-                        setData={setDataCategory}
+                        dataAttribute={dataDistrict.tenQuanHuyen}
+                        setData={setDataDistrict}
                         disabled={false}
                         validate={validate}
                         setValidate={setValidate}

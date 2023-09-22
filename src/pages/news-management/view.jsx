@@ -11,6 +11,7 @@ import InputSelectCommon from '../../infrastucture/common/components/input/selec
 import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 import InputTextAreaCommon from '../../infrastucture/common/components/input/input-text-area';
+import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 
 export const ViewNewsManagement = () => {
     const [validate, setValidate] = useState({});
