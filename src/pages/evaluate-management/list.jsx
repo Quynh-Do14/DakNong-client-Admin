@@ -141,9 +141,9 @@ export const ListEvaluateManagement = () => {
                             </Row>
 
                         </Col>
-                        <Col>
+                        {/* <Col>
                             <Button className={"btn-add weight-600"} onClick={() => navigate(ROUTE_PATH.ADD_EVALUATE)} type='text' icon={<PlusOutlined />} >  Thêm mới</Button>
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className='' justify={"space-between"} align={"middle"}>
                         <Col className='title'>Danh sách đánh giá</Col>

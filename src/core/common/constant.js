@@ -92,5 +92,5 @@ export default class Constants {
             { label: "Người dân", value: "USER" },
         ]
     }
-
+    static DefaultImage = "1"
 };

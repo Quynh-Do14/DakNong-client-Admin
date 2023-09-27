@@ -12,6 +12,8 @@ import InputNumberCommon from '../../infrastucture/common/components/input/input
 import UploadFileCommon from '../../infrastucture/common/components/input/upload-file';
 import InputTextAreaCommon from '../../infrastucture/common/components/input/input-text-area';
 import InputTimePickerCommon from '../../infrastucture/common/components/input/input-timepicker';
+import InputSelectCategoryCommon from '../../infrastucture/common/components/input/select-category';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const ViewLocationManagement = () => {
     const [validate, setValidate] = useState({});
@@ -53,7 +55,8 @@ export const ViewLocationManagement = () => {
                 uriVideo: detailLocation.uriVideo,
                 moTa: detailLocation.moTa,
                 uriBaiViet: detailLocation.uriBaiViet,
-                idQuanHuyen: parseInt(detailLocation.idQuanHuyen),
+                idQuanHuyen: detailLocation.idQuanHuyen,
+                idDanhMuc: detailLocation.idDanhMuc,
                 soSaoTrungBinh: detailLocation.soSaoTrungBinh,
                 emailLienHe: detailLocation.emailLienHe,
                 sdtLienHe: detailLocation.sdtLienHe,
@@ -61,30 +64,30 @@ export const ViewLocationManagement = () => {
                 gioDongCua: detailLocation.gioDongCua,
                 thoiGianGhe: detailLocation.thoiGianGhe,
                 luotXem: detailLocation.luotXem,
-                lat: 1,
-                long: 1,
-                geom: "POINT(-122.360 47.656)",
-                hinhAnh: imageName
+                lat: detailLocation.lat,
+                long: detailLocation.long,
+                geom: detailLocation.geom,
+                hinhAnh: detailLocation.hinhAnh
 
             });
         };
     }, [detailLocation]);
 
-    const handleUpload = async () => {
-        var formdata = new FormData();
-        formdata.append(
-            "file",
-            document.getElementById("file").files[0],
-            document.getElementById('file').value
-        );
-        formdata.append('status', 1);
-        formdata.append('idTintuc', 1);
-        formdata.append('idDiaDiem', 1);
-        let request = await api.upload(formdata,
-            setLoading
-        )
-        setImageName(request.data.link)
-    };
+    // const handleUpload = async () => {
+    //     var formdata = new FormData();
+    //     formdata.append(
+    //         "file",
+    //         document.getElementById("file").files[0],
+    //         document.getElementById('file').value
+    //     );
+    //     formdata.append('status', 1);
+    //     formdata.append('idTintuc', 1);
+    //     formdata.append('idDiaDiem', 1);
+    //     let request = await api.upload(formdata,
+    //         setLoading
+    //     )
+    //     setImageName(request.data.link)
+    // };
 
     const param = useParams();
     const onDetailLocationAsync = async () => {
@@ -105,32 +108,44 @@ export const ViewLocationManagement = () => {
     };
 
     const onUpdateLocation = async () => {
+        var formdata = new FormData();
+        console.log('document.getElementById("file").files', document.getElementById("file").value);
         await setSubmittedTime(Date.now());
+        if (document.getElementById("file").files.length > 0) {
+            formdata.append(
+                "hinhAnh",
+                document.getElementById("file").files[0],
+                document.getElementById('file').value
+            );
+        }
+        formdata.append("tenDiaDiem", dataLocation.tenDiaDiem);
+        formdata.append("status", 1);
+        formdata.append("diaChi", dataLocation.diaChi);
+        formdata.append("uriVideo", dataLocation.uriVideo);
+        formdata.append("moTa", dataLocation.moTa);
+        formdata.append("uriBaiViet", dataLocation.uriBaiViet);
+        formdata.append("idQuanHuyen", dataLocation.idQuanHuyen);
+        formdata.append("idDanhMuc", dataLocation.idDanhMuc);
+        formdata.append("soSaoTrungBinh", dataLocation.soSaoTrungBinh);
+        formdata.append("emailLienHe", dataLocation.emailLienHe);
+        formdata.append("sdtLienHe", dataLocation.sdtLienHe);
+        formdata.append("gioMoCua", dataLocation.gioMoCua);
+        formdata.append("gioDongCua", dataLocation.gioDongCua);
+        formdata.append("thoiGianGhe", dataLocation.thoiGianGhe);
+        formdata.append("luotXem", dataLocation.luotXem);
+        formdata.append("lat", 1);
+        formdata.append("long", 1);
+        formdata.append("geom", "POINT(-122.360 47.656)");
         if (isValidData()) {
-            await api.updateLocation({
-                idDiaDiem: parseInt(param.id),
-                tenDiaDiem: dataLocation.tenDiaDiem,
-                status: 1,
-                diaChi: dataLocation.diaChi,
-                uriVideo: dataLocation.uriVideo,
-                moTa: dataLocation.moTa,
-                uriBaiViet: dataLocation.uriBaiViet,
-                idQuanHuyen: parseInt(dataLocation.idQuanHuyen),
-                soSaoTrungBinh: dataLocation.soSaoTrungBinh,
-                emailLienHe: dataLocation.emailLienHe,
-                sdtLienHe: dataLocation.sdtLienHe,
-                gioMoCua: dataLocation.gioMoCua,
-                gioDongCua: dataLocation.gioDongCua,
-                thoiGianGhe: dataLocation.thoiGianGhe,
-                luotXem: dataLocation.luotXem,
-                lat: dataLocation.lat,
-                long: dataLocation.long,
-                geom: dataLocation.geom,
-                hinhAnh: imageName || dataLocation.hinhAnh
-            },
+            await api.updateLocation(
+                parseInt(param.id),
+                formdata,
                 onBack,
                 setLoading
             )
+        }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
         }
     };
 
@@ -218,6 +233,20 @@ export const ViewLocationManagement = () => {
                             />
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                            <InputSelectCategoryCommon
+                                label={"Danh mục"}
+                                attribute={"idDanhMuc"}
+                                isRequired={true}
+                                dataAttribute={dataLocation.idDanhMuc}
+                                setData={setDataLocation}
+                                disabled={false}
+                                validate={validate}
+                                setValidate={setValidate}
+                                submittedTime={submittedTime}
+
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                             <InputNumberCommon
                                 label={"Số sao trung bình"}
                                 attribute={"soSaoTrungBinh"}
@@ -236,19 +265,6 @@ export const ViewLocationManagement = () => {
                                 attribute={"emailLienHe"}
                                 isRequired={true}
                                 dataAttribute={dataLocation.emailLienHe}
-                                setData={setDataLocation}
-                                disabled={false}
-                                validate={validate}
-                                setValidate={setValidate}
-                                submittedTime={submittedTime}
-                            />
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                            <InputTextCommon
-                                label={"SĐT liên hệ"}
-                                attribute={"sdtLienHe"}
-                                isRequired={true}
-                                dataAttribute={dataLocation.sdtLienHe}
                                 setData={setDataLocation}
                                 disabled={false}
                                 validate={validate}
@@ -296,6 +312,19 @@ export const ViewLocationManagement = () => {
                             />
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                            <InputTextCommon
+                                label={"SĐT liên hệ"}
+                                attribute={"sdtLienHe"}
+                                isRequired={true}
+                                dataAttribute={dataLocation.sdtLienHe}
+                                setData={setDataLocation}
+                                disabled={false}
+                                validate={validate}
+                                setValidate={setValidate}
+                                submittedTime={submittedTime}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                             <InputNumberCommon
                                 label={"Lượt xem"}
                                 attribute={"luotXem"}
@@ -323,7 +352,8 @@ export const ViewLocationManagement = () => {
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <UploadFileCommon
                                 label={'Hình ảnh'}
-                                handleUpload={handleUpload}
+                                dataAttribute={dataLocation.hinhAnh}
+                            // handleUpload={handleUpload}
                             />
                         </Col>
                     </Row>

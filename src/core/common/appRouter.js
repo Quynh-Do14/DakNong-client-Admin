@@ -12,7 +12,7 @@ export const ROUTE_PATH = {
     VIEW_CATEGORY: `${PREFIX}/category/view/:id`,
     ADD_CATEGORY: `${PREFIX}/category/add`,
 
-    LOCATION: `${PREFIX}/locations`,
+    LOCATION: `${PREFIX}/location`,
     VIEW_LOCATION: `${PREFIX}/location/view/:id`,
     ADD_LOCATION: `${PREFIX}/location/add`,
 

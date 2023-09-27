@@ -31,7 +31,6 @@ export const MainLayout = ({ ...props }) => {
     sessionStorage.clear();
     navigate(ROUTE_PATH.LOGIN);
   }
-
   const openModalLogout = () => {
     setIsOpenModalLogout(true);
   };

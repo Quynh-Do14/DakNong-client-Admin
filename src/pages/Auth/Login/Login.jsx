@@ -6,10 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../../infrastucture/api';
 import { FullPageLoading } from '../../../infrastucture/common/components/controls/loading';
 import Constants from '../../../core/common/constant';
+import InputTextAuthCommon from '../../../infrastucture/common/components/input/input-text-auth';
+import { Row, Col } from 'antd';
+import { WarningMessage } from '../../../infrastucture/common/components/toast/notificationToast';
 export const LoginPage = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [submittedTime, setSubmittedTime] = useState();
+    const [validate, setValidate] = useState({});
+
 
     const navigate = useNavigate();
 
@@ -20,42 +24,89 @@ export const LoginPage = () => {
         };
     }, [])
 
-    // const router = useRouter()
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
+    const [_data, _setData] = useState({});
+    const dataAuth = _data;
 
-    const onChangePassword = (e) => {
-        setPassword(e.target.value)
-    }
+    const setDataAuth = (data) => {
+        Object.assign(dataAuth, { ...data });
+        _setData({ ...dataAuth });
+    };
+
+    const isValidData = () => {
+        let allRequestOK = true;
+
+        setValidate({ ...validate });
+
+        Object.values(validate).forEach((it) => {
+            if (it.isError === true) {
+                allRequestOK = false;
+            }
+        });
+
+        return allRequestOK;
+    };
+
 
 
     const onSubmit = async (e) => {
+        await setSubmittedTime(Date.now());
         e.preventDefault();
-        const login = await api.login({
-            email: email,
-            password: password,
-        },
-            setLoading
-        );
-        if (login.success == true) {
-            sessionStorage.setItem(Constants.TOKEN, login.data.token)
-            navigate(ROUTE_PATH.MAINLAYOUT);
+        if (isValidData()) {
+            const login = await api.login({
+                email: dataAuth.email,
+                password: dataAuth.password,
+            },
+                setLoading
+            );
+            if (login.success == true) {
+                sessionStorage.setItem(Constants.TOKEN, login.data.token)
+                navigate(ROUTE_PATH.MAINLAYOUT);
+            }
+            return false;
         }
-        return false;
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     }
     return (
         <div>
             <div className='login'>
                 <div className={"container"} id="container">
                     <div className="form-container sign-in-container">
-                        <form>
-                            <h1>Đăng nhập</h1>
-                            <input value={email} onChange={onChangeEmail} type="email" placeholder="Nhập Email" />
-                            <input value={password} onChange={onChangePassword} type="password" placeholder="Nhập mật khẩu" />
-                            <a>Quên mật khẩu?</a>
+                        <div className='form-flex'>
+                            <h1 className='mb-4'>Đăng nhập</h1>
+                            <Row>
+                                <Col span={24}>
+                                    <InputTextAuthCommon
+                                        label={"Email"}
+                                        attribute={"email"}
+                                        isRequired={true}
+                                        dataAttribute={dataAuth.email}
+                                        setData={setDataAuth}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        isPassWord={true}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <InputTextAuthCommon
+                                        label={"Mật khẩu"}
+                                        attribute={"password"}
+                                        isRequired={true}
+                                        dataAttribute={dataAuth.password}
+                                        setData={setDataAuth}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        isPassWord={false}
+                                    />
+                                </Col>
+                            </Row>
                             <button onClick={onSubmit}>Đăng nhập</button>
-                        </form>
+                        </div>
                     </div>
                     <div className="overlay-container">
                         <div className="overlay">

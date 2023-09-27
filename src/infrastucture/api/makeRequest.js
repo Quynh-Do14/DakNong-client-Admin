@@ -52,10 +52,13 @@ const request = {
         });
     });
   },
-  postUploadFile: async (url, data, setLoading) => {
+  postUploadFile: async (url, data, callBack, setLoading) => {
+    let token = sessionStorage.getItem('token');
     let result = await fetch(url, {
       method: "POST",
-      // headers: myHeaders,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
       body: data,
       redirect: "follow",
     }).catch((e) => {
@@ -66,6 +69,7 @@ const request = {
     if (result.ok) {
       SuccessMessage("Upload dữ liệu thành công", "Dữ liệu đã được upload thành công")
       setLoading(false)
+      callBack()
       return result.json();
     } else {
       setLoading(false)
@@ -77,6 +81,38 @@ const request = {
       };
     }
   },
+
+
+  putUploadFile: async (url, data, callBack, setLoading) => {
+    let token = sessionStorage.getItem('token');
+    let result = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+      body: data,
+      redirect: "follow",
+    }).catch((e) => {
+      console.log(e);
+    });
+    console.log(result);
+    setLoading(true)
+    if (result.ok) {
+      SuccessMessage("Upload dữ liệu thành công", "Dữ liệu đã được upload thành công")
+      setLoading(false)
+      callBack()
+      return result.json();
+    } else {
+      setLoading(false)
+      FailMessage("Upload dữ liệu thất bại", "Dữ liệu đã được Upload thất bại");
+      return {
+        status: false,
+        data: {},
+        message: "connect server failed",
+      };
+    }
+  },
+
   post: async (url, data, callBack, setLoading) => {
     // console.log(url, data);
     let token = sessionStorage.getItem('token');

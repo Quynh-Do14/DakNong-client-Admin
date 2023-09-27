@@ -12,6 +12,7 @@ import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 import InputNumberCommon from '../../infrastucture/common/components/input/input-number';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const AddTourManagement = () => {
     const [validate, setValidate] = useState({});
@@ -65,6 +66,9 @@ export const AddTourManagement = () => {
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     };
     return (
         <MainLayout>
