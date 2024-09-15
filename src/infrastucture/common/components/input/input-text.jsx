@@ -35,11 +35,11 @@ const InputTextCommon = (props) => {
 
         if (attribute.includes("email")) {
             checkValidate = validateEmail(value);
-            validateFields(isImplicitChange, attribute, !checkValidate, setValidate, validate, !checkValidate ? `Vui lòng nhập đúng định dạng ${labelLower}` : "");
+            validateFields(isImplicitChange, attribute, !checkValidate, setValidate, validate, !checkValidate ? value ? `Vui lòng nhập đúng định dạng ${labelLower}` : `Vui lòng nhập ${labelLower}` : "");
         }
         if (attribute.includes("sdt")) {
             checkValidate = validatePhoneNumber(value);
-            validateFields(isImplicitChange, attribute, !checkValidate, setValidate, validate, !checkValidate ? `Vui lòng nhập đúng định dạng ${labelLower}` : "");
+            validateFields(isImplicitChange, attribute, !checkValidate, setValidate, validate, !checkValidate ? value ? `Vui lòng nhập đúng định dạng ${labelLower}` : `Vui lòng nhập ${labelLower}` : "");
         }
 
     };

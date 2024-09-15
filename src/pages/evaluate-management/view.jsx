@@ -11,6 +11,7 @@ import InputSelectCommon from '../../infrastucture/common/components/input/selec
 import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const ViewEvaluateManagement = () => {
     const [validate, setValidate] = useState({});
@@ -90,6 +91,9 @@ export const ViewEvaluateManagement = () => {
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     };
 
     return (

@@ -8,6 +8,7 @@ import InputTextCommon from '../../infrastucture/common/components/input/input-t
 import { Button, Col, Row } from 'antd';
 import { FullPageLoading } from '../../infrastucture/common/components/controls/loading';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const ViewCategoryManagement = () => {
     const [validate, setValidate] = useState({});
@@ -75,6 +76,9 @@ export const ViewCategoryManagement = () => {
                 onBack,
                 setLoading
             )
+        }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
         }
     };
 

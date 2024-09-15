@@ -10,6 +10,7 @@ import { FullPageLoading } from '../../infrastucture/common/components/controls/
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const ViewUserManagement = () => {
     const [validate, setValidate] = useState({});
@@ -89,6 +90,9 @@ export const ViewUserManagement = () => {
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     };
     return (
         <div>

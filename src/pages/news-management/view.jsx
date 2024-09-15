@@ -12,6 +12,8 @@ import Constants from '../../core/common/constant';
 import InputDateCommon from '../../infrastucture/common/components/input/input-date';
 import InputTextAreaCommon from '../../infrastucture/common/components/input/input-text-area';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
+import UploadFileCommon from '../../infrastucture/common/components/input/upload-file';
 
 export const ViewNewsManagement = () => {
     const [validate, setValidate] = useState({});
@@ -80,28 +82,40 @@ export const ViewNewsManagement = () => {
     };
 
     const onUpdateNews = async () => {
+        var formdata = new FormData();
         await setSubmittedTime(Date.now());
+        if (document.getElementById("file").files.length > 0) {
+            formdata.append(
+                "hinhAnh",
+                document.getElementById("file").files[0],
+                document.getElementById('file').value
+            );
+        }
+        formdata.append("tieuDe", dataNews.tieuDe);
+        formdata.append("status", 1);
+        formdata.append("tieuDeCon", dataNews.tieuDeCon);
+        formdata.append("moTaNgan", dataNews.moTaNgan);
+        formdata.append("firstName", dataNews.firstName);
+        formdata.append("chiTiet", dataNews.chiTiet);
+        formdata.append("ngayDang", dataNews.ngayDang);
+        formdata.append("luotXem", dataNews.luotXem);
+        formdata.append("soSaoTrungBinh", dataNews.soSaoTrungBinh);
+        formdata.append("diaChi", dataNews.diaChi);
+        formdata.append("userId", dataNews.userId || 1);
+        formdata.append("lat", 1);
+        formdata.append("long", 1);
+        formdata.append("geom", "POINT(-122.360 47.656)");
         if (isValidData()) {
-            await api.updateNews({
-                id: parseInt(param.id),
-                tieuDe: dataNews.tieuDe,
-                tieuDeCon: dataNews.tieuDeCon,
-                moTaNgan: dataNews.moTaNgan,
-                firstName: dataNews.firstName,
-                chiTiet: dataNews.chiTiet,
-                ngayDang: dataNews.ngayDang,
-                lat: 1,
-                long: 1,
-                geom: "POINT(-122.360 47.656)",
-                soSaoTrungBinh: dataNews.soSaoTrungBinh,
-                luotXem: dataNews.luotXem,
-                diaChi: dataNews.diaChi,
-                status: 1,
-            },
+            await api.updateNews(
+                param.id,
+                formdata,
                 onBack,
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     };
 
     return (
@@ -223,6 +237,13 @@ export const ViewNewsManagement = () => {
                                 validate={validate}
                                 setValidate={setValidate}
                                 submittedTime={submittedTime}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                            <UploadFileCommon
+                                label={'Hình ảnh'}
+                            // isRequired={true}
+                            // handleUpload={handleUpload}
                             />
                         </Col>
                     </Row>

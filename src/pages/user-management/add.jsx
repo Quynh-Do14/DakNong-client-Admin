@@ -9,6 +9,7 @@ import { FullPageLoading } from '../../infrastucture/common/components/controls/
 import InputSelectCommon from '../../infrastucture/common/components/input/select-common';
 import Constants from '../../core/common/constant';
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const AddUserManagement = () => {
     const [validate, setValidate] = useState({});
@@ -48,7 +49,7 @@ export const AddUserManagement = () => {
         if (isValidData()) {
             await api.createUser({
                 userName: dataUser.userName,
-                password: "123456aA",
+                password: "123456aA@",
                 status: 1,
                 role: dataUser.role,
                 email: dataUser.email,
@@ -61,6 +62,9 @@ export const AddUserManagement = () => {
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     };
     return (
         <div>

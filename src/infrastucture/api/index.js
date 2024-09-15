@@ -59,10 +59,10 @@ const api = {
   getLocationById: (params, setLoading) =>
     request.get(`${apiLinks.API}${Endpoint.Module.Location}/${params.id}`, setLoading),
   createLocation: (data, callBack, setLoading) => {
-    request.post(`${apiLinks.API}${Endpoint.Module.Location}`, data, callBack, setLoading)
+    request.postUploadFile(`${apiLinks.API}${Endpoint.Module.Location}`, data, callBack, setLoading)
   },
-  updateLocation: (data, callBack, setLoading) => {
-    request.put(`${apiLinks.API}${Endpoint.Module.Location}/${data.id}`, data, callBack, setLoading)
+  updateLocation: (id, data, callBack, setLoading) => {
+    request.putUploadFile(`${apiLinks.API}${Endpoint.Module.Location}/${id}`, data, callBack, setLoading)
   },
   deleteLocation: (data, callBack, setLoading) => {
     request.delete(`${apiLinks.API}${Endpoint.Module.Location}/${data.id}`, data, callBack, setLoading)
@@ -107,10 +107,10 @@ const api = {
   getNewsById: (params, setLoading) =>
     request.get(`${apiLinks.API}${Endpoint.Module.News}/${params.id}`, setLoading),
   createNews: (data, callBack, setLoading) => {
-    request.post(`${apiLinks.API}${Endpoint.Module.News}`, data, callBack, setLoading)
+    request.postUploadFile(`${apiLinks.API}${Endpoint.Module.News}`, data, callBack, setLoading)
   },
-  updateNews: (data, callBack, setLoading) => {
-    request.put(`${apiLinks.API}${Endpoint.Module.News}/${data.id}`, data, callBack, setLoading)
+  updateNews: (id, data, callBack, setLoading) => {
+    request.putUploadFile(`${apiLinks.API}${Endpoint.Module.News}/${id}`, data, callBack, setLoading)
   },
   deleteNews: (data, callBack, setLoading) => {
     request.delete(`${apiLinks.API}${Endpoint.Module.News}/${data.id}`, data, callBack, setLoading)

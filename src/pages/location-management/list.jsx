@@ -32,12 +32,20 @@ export const ListLocationManagement = () => {
     const dataCategory = useRecoilValue(CategoryState);
     const dataDistrict = useRecoilValue(DistrictState);
 
-    const [districtId, setDictrictId] = useState(1);
-    const [categoryId, setCategoryId] = useState(1);
+    const [districtId, setDictrictId] = useState();
+    const [categoryId, setCategoryId] = useState();
     const navigate = useNavigate();
 
-    const onGetListLocationAsync = async ({ keyWord = "", limit = pageSize, page = 1, idQuanHuyen = districtId, idDanhMuc = categoryId }) => {
-        if (dataCategory.length && dataDistrict.length) {
+    useEffect(() => {
+        setDictrictId(dataDistrict[0]?.idQuanHuyen);
+        setCategoryId(dataCategory[0]?.idDanhMucDiaDiem);
+    }, [dataDistrict, dataCategory])
+    const checkCondition = () => {
+        return dataDistrict && dataCategory ? true : false
+    }
+    const onGetListLocationAsync = async ({ keyWord = "", limit = pageSize, page = 1, idQuanHuyen = 1, idDanhMuc = 1 }) => {
+        const condition = await checkCondition()
+        if (condition) {
             const response = await api.getAllLocation(
                 `${Constants.Params.searchName.trim()}=${keyWord}&${Constants.Params.limit}=${limit}&${Constants.Params.page}=${page}&${Constants.Params.idQuanHuyen}=${idQuanHuyen}&${Constants.Params.idDanhMuc}=${idDanhMuc}`,
                 setLoading
@@ -49,15 +57,13 @@ export const ListLocationManagement = () => {
             setTotalItem(response.data.totalItems);
         }
     }
-    const onSearch = async (keyWord = "", limit = pageSize, page = 1, idQuanHuyen = districtId, idDanhMuc = categoryId) => {
+    const onSearch = async (keyWord = "", limit = pageSize, page = 1, idQuanHuyen = dataDistrict[0]?.idQuanHuyen, idDanhMuc = dataCategory[0]?.idDanhMucDiaDiem) => {
         await onGetListLocationAsync({ keyWord: keyWord, limit: limit, page: page, idQuanHuyen: idQuanHuyen, idDanhMuc: idDanhMuc })
     };
 
     useEffect(() => {
-        if (dataCategory.length && dataDistrict.length) {
-            onSearch().then(_ => { })
-        }
-    }, [dataCategory, dataDistrict])
+        onSearch().then(_ => { })
+    }, [])
 
     const onChangeSearchText = (e) => {
         setSearchText(e.target.value);

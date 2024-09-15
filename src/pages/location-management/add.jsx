@@ -13,6 +13,8 @@ import InputTimePickerCommon from '../../infrastucture/common/components/input/i
 import { HeaderMainLayout } from '../../infrastucture/common/components/layout/Header';
 import UploadFileCommon from '../../infrastucture/common/components/input/upload-file';
 import InputSelectDistrictCommon from '../../infrastucture/common/components/input/select-district';
+import InputSelectCategoryCommon from '../../infrastucture/common/components/input/select-category';
+import { WarningMessage } from '../../infrastucture/common/components/toast/notificationToast';
 
 export const AddLocationManagement = () => {
     const [validate, setValidate] = useState({});
@@ -48,49 +50,60 @@ export const AddLocationManagement = () => {
     };
 
     const onCreateLocation = async () => {
+        var formdata = new FormData();
         await setSubmittedTime(Date.now());
+        if (document.getElementById("file").files.length > 0) {
+            formdata.append(
+                "hinhAnh",
+                document.getElementById("file").files[0],
+                document.getElementById('file').value
+            );
+        };
+        formdata.append("tenDiaDiem", dataLocation.tenDiaDiem);
+        formdata.append("status", 1);
+        formdata.append("diaChi", dataLocation.diaChi);
+        formdata.append("uriVideo", dataLocation.uriVideo);
+        formdata.append("moTa", dataLocation.moTa);
+        formdata.append("uriBaiViet", dataLocation.uriBaiViet);
+        formdata.append("idQuanHuyen", dataLocation.idQuanHuyen);
+        formdata.append("idDanhMuc", dataLocation.idDanhMuc);
+        formdata.append("soSaoTrungBinh", dataLocation.soSaoTrungBinh);
+        formdata.append("emailLienHe", dataLocation.emailLienHe);
+        formdata.append("sdtLienHe", dataLocation.sdtLienHe);
+        formdata.append("gioMoCua", dataLocation.gioMoCua);
+        formdata.append("gioDongCua", dataLocation.gioDongCua);
+        formdata.append("thoiGianGhe", dataLocation.thoiGianGhe);
+        formdata.append("luotXem", dataLocation.luotXem);
+        formdata.append("lat", 1);
+        formdata.append("long", 1);
+        formdata.append("geom", "POINT(-122.360 47.656)");
         if (isValidData()) {
-            await api.createLocation({
-                tenDiaDiem: dataLocation.tenDiaDiem,
-                status: 1,
-                diaChi: dataLocation.diaChi,
-                uriVideo: dataLocation.uriVideo,
-                moTa: dataLocation.moTa,
-                uriBaiViet: dataLocation.uriBaiViet,
-                idQuanHuyen: parseInt(dataLocation.idQuanHuyen),
-                soSaoTrungBinh: dataLocation.soSaoTrungBinh,
-                emailLienHe: dataLocation.emailLienHe,
-                sdtLienHe: dataLocation.sdtLienHe,
-                gioMoCua: dataLocation.gioMoCua,
-                gioDongCua: dataLocation.gioDongCua,
-                thoiGianGhe: dataLocation.thoiGianGhe,
-                luotXem: dataLocation.luotXem,
-                lat: 1,
-                long: 1,
-                geom: "POINT(-122.360 47.656)",
-                hinhAnh: imageName
-            },
+            await api.createLocation(
+                formdata,
                 onBack,
                 setLoading
             )
         }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        }
     };
 
-    const handleUpload = async () => {
-        var formdata = new FormData();
-        formdata.append(
-            "file",
-            document.getElementById("file").files[0],
-            document.getElementById('file').value
-        );
-        formdata.append('status', 1);
-        formdata.append('idTintuc', 1);
-        formdata.append('idDiaDiem', 1);
-        let request = await api.upload(formdata,
-            setLoading
-        )
-        setImageName(request.data.link)
-    };
+    // const handleUpload = async () => {
+    //     var formdata = new FormData();
+    //     formdata.append(
+    //         "file",
+    //         document.getElementById("file").files[0],
+    //         document.getElementById('file').value
+    //     );
+    //     formdata.append('status', 1);
+    //     formdata.append('idTintuc', 1);
+    //     formdata.append('idDiaDiem', 1);
+    //     let request = await api.upload(formdata,
+    //         setLoading
+    //     )
+    //     setImageName(request.data.link)
+    // };
     return (
         <div>
             <MainLayout>
@@ -176,6 +189,20 @@ export const AddLocationManagement = () => {
                                 />
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputSelectCategoryCommon
+                                    label={"Danh mục"}
+                                    attribute={"idDanhMuc"}
+                                    isRequired={true}
+                                    dataAttribute={dataLocation.idDanhMuc}
+                                    setData={setDataLocation}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputNumberCommon
                                     label={"Số sao trung bình"}
                                     attribute={"soSaoTrungBinh"}
@@ -194,19 +221,6 @@ export const AddLocationManagement = () => {
                                     attribute={"emailLienHe"}
                                     isRequired={true}
                                     dataAttribute={dataLocation.emailLienHe}
-                                    setData={setDataLocation}
-                                    disabled={false}
-                                    validate={validate}
-                                    setValidate={setValidate}
-                                    submittedTime={submittedTime}
-                                />
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                <InputTextCommon
-                                    label={"SĐT liên hệ"}
-                                    attribute={"sdtLienHe"}
-                                    isRequired={true}
-                                    dataAttribute={dataLocation.sdtLienHe}
                                     setData={setDataLocation}
                                     disabled={false}
                                     validate={validate}
@@ -254,6 +268,19 @@ export const AddLocationManagement = () => {
                                 />
                             </Col>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                <InputTextCommon
+                                    label={"SĐT liên hệ"}
+                                    attribute={"sdtLienHe"}
+                                    isRequired={true}
+                                    dataAttribute={dataLocation.sdtLienHe}
+                                    setData={setDataLocation}
+                                    disabled={false}
+                                    validate={validate}
+                                    setValidate={setValidate}
+                                    submittedTime={submittedTime}
+                                />
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <InputNumberCommon
                                     label={"Lượt xem"}
                                     attribute={"luotXem"}
@@ -281,7 +308,7 @@ export const AddLocationManagement = () => {
                             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                                 <UploadFileCommon
                                     label={'Hình ảnh'}
-                                    handleUpload={handleUpload}
+                                // handleUpload={handleUpload}
                                 />
                             </Col>
                         </Row>
